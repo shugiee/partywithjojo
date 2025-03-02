@@ -31,13 +31,5 @@ app.post("/login", (req, res) => {
     res.redirect("/register?event=registrationFailed");
 });
 
-app.get("/rsvp", (req, res) => {
-    if (req.cookies.rsvp_auth === "confirmed") {
-        res.send("Welcome to the RSVP page!");
-    } else {
-        res.redirect("/register");
-    }
-});
-
 app.listen(3000, () => console.log("Server running on port 3000"));
 

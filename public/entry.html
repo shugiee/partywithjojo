@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Jordyn and Jonathan's Wedding - Login</title>
+        <link rel="prefetch" href="https://unpkg.com/htmx.org@2.0.4" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charset="UTF-8">
+        <meta name="description" content="Login page for Jordyn Levy and Jonathan Olson's wedding in 2025.">
+    </head>
+    <body>
+        <h1>Party with JoJo - Login</h1>
+        <form method="post" action="login">
+            <label>
+                Please enter the code from your invite:
+                <input type="password" name="password" autocomplete="name" required />
+            </label>
+            <button>Submit</button>
+        </form>
+        <script>
+            const searchParams = new URL(window.location).searchParams;
+            const event = searchParams.get("event");
+            if (event === "registrationFailed") {
+                window.alert("Incorrect passcode! Please try again");
+            }
+        </script>
+    </body>
+</html>
