@@ -13,22 +13,22 @@ app.post("/login", (req, res) => {
     const { password } = req.body;
 
     if (password === SECRET_PASSWORD) {
-        res.cookie("rsvp_auth", "yes-foobar", {
+        res.cookie("rsvp_auth", "confirmed", {
             httpOnly: true,
             sameSite: "Strict", // Prevents CSRF
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
+            maxAge: 24 * 60 * 60 * 1000 * 180, // 180 days
         });
         return res.status(200).send("OK");
     }
 
-    res.status(401).send("Unauthorized");
+    res.redirect("/details");
 });
 
 app.get("/rsvp", (req, res) => {
-    if (req.cookies.rsvp_auth === "yes-foobar") {
+    if (req.cookies.rsvp_auth === "confirmed") {
         res.send("Welcome to the RSVP page!");
     } else {
-        res.status(403).send("Forbidden");
+        res.redirect("/register");
     }
 });
 
