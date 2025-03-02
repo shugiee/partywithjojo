@@ -19,5 +19,12 @@
             </label>
             <button>Submit</button>
         </form>
+        <script>
+            const searchParams = new URL(window.location).searchParams;
+            const event = searchParams.get("event");
+            if (event === "registrationFailed") {
+                window.alert("Incorrect passcode! Please try again");
+            }
+        </script>
     </body>
 </html>

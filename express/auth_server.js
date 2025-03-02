@@ -21,7 +21,7 @@ app.post("/login", (req, res) => {
         return res.status(200).send("OK");
     }
 
-    res.redirect("/details");
+    res.redirect("/register?event=registrationFailed");
 });
 
 app.get("/rsvp", (req, res) => {
