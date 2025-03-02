@@ -12,12 +12,19 @@
         <a href="./details.html">Event Details</a>
         <a href="./register.html">Register</a>
 		<h1>Party with JoJo - Register</h1>
-		<form method="post">
+		<form method="post" id="login-form">
 			<label>
 				Please enter the code from your invite:
 				<input type="password" name="submitted-name" autocomplete="name" required />
 			</label>
 				<button>Save</button>
 		</form>
+        <script>
+            document.getElementById("login-form").addEventListener("submit", async (event) => {
+                event.preventDefault();
+                document.cookie = "rsvp_auth=yes-foobar; Path=/; Secure; HttpOnly; SameSite=Strict";
+                window.location.href = "/rsvp";
+            });
+        </script>
 	</body>
 </html>
