@@ -1,18 +1,25 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const fs = require('fs');
+const dotenv = require('dotenv');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Enable form parsing
 app.use(cookieParser());
 
-const SECRET_PASSWORD = "1234"; // Change this to something better
+const secretsPath = "/etc/partywithjojo/secrets.env";
+if (fs.existsSync(secretsPath)) {
+  dotenv.config({ path: secretsPath });
+} else {
+  console.error(`Secrets file not found: ${secretsPath}`);
+}
+const { WEDDING_SITE_PASSWORD } = process.env;
 
 app.post("/login", (req, res) => {
-    console.log("express req.body", req.body);
     const { password } = req.body;
 
-    if (password === SECRET_PASSWORD) {
+    if (password === WEDDING_SITE_PASSWORD) {
         res.cookie("rsvp_auth", "confirmed", {
             httpOnly: true,
             sameSite: "Strict", // Prevents CSRF
