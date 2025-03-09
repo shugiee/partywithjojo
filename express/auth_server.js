@@ -1,7 +1,8 @@
-const express = require("express");
-const cookieParser = require("cookie-parser");
-const fs = require('fs');
-const dotenv = require('dotenv');
+import express from "express";
+import cookieParser from "cookie-parser";
+import * as fs from "fs";
+import * as dotenv from "dotenv";
+import * as jose from "jose";
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,8 @@ if (fs.existsSync(secretsPath)) {
   console.error(`Secrets file not found: ${secretsPath}`);
 }
 const { WEDDING_SITE_PASSWORD } = process.env;
+const { WEDDING_SITE_JWT_SECRET_KEY } = process.env;
+console.log("key", WEDDING_SITE_JWT_SECRET_KEY);
 
 app.post("/login", (req, res) => {
     const { password } = req.body;
