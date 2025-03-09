@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import * as fs from "fs";
 import * as dotenv from "dotenv";
-import { SignJWT } from 'jose-node-esm-runtime';  // Use the ESM version for Node.js
+import { SignJWT, jwtVerify } from 'jose-node-esm-runtime';  // Use the ESM version for Node.js
 
 const app = express();
 app.use(express.json());
@@ -19,29 +19,44 @@ const { WEDDING_SITE_PASSWORD } = process.env;
 const { WEDDING_SITE_JWT_SECRET_KEY } = process.env;
 const SIGNED_WEDDING_SITE_JWT_SECRET_KEY = new TextEncoder().encode(WEDDING_SITE_JWT_SECRET_KEY); 
 
+const ISSUER = "";
+const AUDIENCE = "";
+
 app.post("/login", async (req, res) => {
-    const { password } = req.body;
+    const { password } = req.cookies;
 
     if (password === WEDDING_SITE_PASSWORD) {
+        console.log("CORRECT PASSWORD");
         const jwt = await new SignJWT({})
             .setProtectedHeader({ alg: "HS256" })
+            .setIssuer("partywithjojo:host")
+            .setAudience("partywithjojo:guest")
             .setIssuedAt(Date.now())
             .sign(SIGNED_WEDDING_SITE_JWT_SECRET_KEY);
 
-        res.cookie("rsvp_auth", "confirmed", {
-            httpOnly: true,
-            sameSite: "Strict", // Prevents CSRF
-            maxAge: 24 * 60 * 60 * 1000 * 180, // 180 days
-        });
         res.cookie("token", jwt, {
             httpOnly: true,
+            secure: true,
             sameSite: "Strict", // Prevents CSRF
             maxAge: 24 * 60 * 60 * 1000 * 180, // 180 days
         });
-        return res.status(200).send("OK");
+        res.redirect("/home");
     }
+    console.log("WRONG PASSWORD");
 
-    res.redirect("/register?event=registrationFailed");
+    res.redirect("/entry.html");
+});
+
+app.get("/validate-token", async (req, res) => {
+    console.log("calling validate token");
+    const { token } = req.cookies;
+    try {
+        await jwtVerify(token, SIGNED_WEDDING_SITE_JWT_SECRET_KEY, { issuer: ISSUER, audience: AUDIENCE });
+        res.sendStatus(200);
+    } catch (err) {
+        console.error("Error in parsing token!", err);
+        res.sendStatus(401);
+    }
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));
