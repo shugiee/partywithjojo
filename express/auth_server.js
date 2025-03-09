@@ -23,10 +23,9 @@ const ISSUER = "";
 const AUDIENCE = "";
 
 app.post("/login", async (req, res) => {
-    const { password } = req.cookies;
+    const { password } = req.body;
 
     if (password === WEDDING_SITE_PASSWORD) {
-        console.log("CORRECT PASSWORD");
         const jwt = await new SignJWT({})
             .setProtectedHeader({ alg: "HS256" })
             .setIssuer("partywithjojo:host")
@@ -41,10 +40,9 @@ app.post("/login", async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000 * 180, // 180 days
         });
         res.redirect("/home");
+    } else {
+        res.redirect("/entry.html");
     }
-    console.log("WRONG PASSWORD");
-
-    res.redirect("/entry.html");
 });
 
 app.get("/validate-token", async (req, res) => {
