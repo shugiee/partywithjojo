@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import * as fs from "fs";
 import * as dotenv from "dotenv";
-import * as jose from "jose";
+import { SignJWT } from 'jose-node-esm-runtime';  // Use the ESM version for Node.js
 
 const app = express();
 app.use(express.json());
@@ -17,13 +17,23 @@ if (fs.existsSync(secretsPath)) {
 }
 const { WEDDING_SITE_PASSWORD } = process.env;
 const { WEDDING_SITE_JWT_SECRET_KEY } = process.env;
-console.log("key", WEDDING_SITE_JWT_SECRET_KEY);
+const SIGNED_WEDDING_SITE_JWT_SECRET_KEY = new TextEncoder().encode(WEDDING_SITE_JWT_SECRET_KEY); 
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
     const { password } = req.body;
 
     if (password === WEDDING_SITE_PASSWORD) {
+        const jwt = await new SignJWT({})
+            .setProtectedHeader({ alg: "HS256" })
+            .setIssuedAt(Date.now())
+            .sign(SIGNED_WEDDING_SITE_JWT_SECRET_KEY);
+
         res.cookie("rsvp_auth", "confirmed", {
+            httpOnly: true,
+            sameSite: "Strict", // Prevents CSRF
+            maxAge: 24 * 60 * 60 * 1000 * 180, // 180 days
+        });
+        res.cookie("token", jwt, {
             httpOnly: true,
             sameSite: "Strict", // Prevents CSRF
             maxAge: 24 * 60 * 60 * 1000 * 180, // 180 days
