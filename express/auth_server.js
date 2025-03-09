@@ -50,6 +50,7 @@ app.get("/validate-token", async (req, res) => {
     const { token } = req.cookies;
     try {
         await jwtVerify(token, SIGNED_WEDDING_SITE_JWT_SECRET_KEY, { issuer: ISSUER, audience: AUDIENCE });
+        console.log("token is good");
         res.sendStatus(200);
     } catch (err) {
         console.error("Error in parsing token!", err);
