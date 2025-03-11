@@ -1,4 +1,5 @@
 import express from "express";
+import sqlite3 from "sqlite3";
 import cookieParser from "cookie-parser";
 import * as fs from "fs";
 import * as dotenv from "dotenv";
