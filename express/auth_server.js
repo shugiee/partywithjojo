@@ -58,5 +58,10 @@ app.get("/validate-token", async (req, res) => {
     }
 });
 
+app.post("/user", (req, res) => {
+    const { name } = req.body;
+    console.log("name:", name);
+});
+
 app.listen(3000, () => console.log("Server running on port 3000"));
 

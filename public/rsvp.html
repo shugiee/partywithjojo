@@ -14,7 +14,13 @@
         <a href="./registry">Registry</a>
         <a href="./faq">FAQs</a>
         <a href="./rsvp">RSVP</a>
-		<h1>Party with JoJo - Home</h1>
-        <img src="./katana_kitten.webp" alt="Jordyn and Jonathan sharing drinks and laughs at NYC's Katana Kitten" />
+		<h1>Party with JoJo - RSVP</h1>
+        <form method="post" action="rsvp_get_user">
+            <label>
+                Please enter the first and last name of any member of your party.
+                <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith" />
+            </label>
+            <button>Continue</button>
+        </form>
 	</body>
 </html>
