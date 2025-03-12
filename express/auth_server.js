@@ -1,6 +1,6 @@
 import express from "express";
-import sqlite3 from "sqlite3";
 import cookieParser from "cookie-parser";
+import Database from 'better-sqlite3';
 import * as fs from "fs";
 import * as dotenv from "dotenv";
 import { SignJWT, jwtVerify } from 'jose-node-esm-runtime';  // Use the ESM version for Node.js
@@ -9,6 +9,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Enable form parsing
 app.use(cookieParser());
+
+const db = new Database("/home/jay/partywithjojo/wedding.db", { verbose: console.log });
+db.pragma('journal_mode = WAL');
+
+const getAllMembersInPartyWith = (name) => {
+    const row = db.prepare('SELECT * FROM guests WHERE party_id IN (SELECT party_id FROM guests WHERE name = ?);').all(name);
+    return row;
+};
 
 const secretsPath = "/etc/partywithjojo/secrets.env";
 if (fs.existsSync(secretsPath)) {
@@ -62,6 +70,8 @@ app.get("/validate-token", async (req, res) => {
 app.post("/user", (req, res) => {
     const { name } = req.body;
     console.log("name:", name);
+    const members = getAllMembersInPartyWith(name);
+    res.send(members);
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));

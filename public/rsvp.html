@@ -6,6 +6,7 @@
 		<meta charset="UTF-8">
 		<meta name="description" content="Landing page for Jordyn Levy and Jonathan Olson's wedding in 2025.">
         <link rel="stylesheet" href="./styles.css" />
+        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 	</head>
 	<body>
         <a href="./details">Event Details</a>
@@ -14,13 +15,11 @@
         <a href="./registry">Registry</a>
         <a href="./faq">FAQs</a>
         <a href="./rsvp">RSVP</a>
-		<h1>Party with JoJo - RSVP</h1>
-        <form method="post" action="rsvp_get_user">
-            <label>
-                Please enter the first and last name of any member of your party.
-                <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith" />
-            </label>
-            <button>Continue</button>
-        </form>
-	</body>
+        <h1>Party with JoJo - RSVP</h1>
+        <label>
+            Please enter the first and last name of any member of your party.
+            <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith" />
+        </label>
+        <button hx-post="/rsvp_get_user" hx-swap="outerHTML">Continue</button>
+    </body>
 </html>
