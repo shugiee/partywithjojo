@@ -16,10 +16,13 @@
         <a href="./faq">FAQs</a>
         <a href="./rsvp">RSVP</a>
         <h1>Party with JoJo - RSVP</h1>
-        <label>
-            Please enter the first and last name of any member of your party.
-            <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith" />
-        </label>
-        <button hx-post="/rsvp_get_user" hx-swap="outerHTML">Continue</button>
+        <form>
+            <label>
+                Please enter the first and last name of any member of your party.
+                <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith" />
+            </label>
+            <button hx-post="/rsvp_get_user" hx-swap="innerHTML" hx-target="#rsvp_toggles">Continue</button>
+        </form>
+        <div id="rsvp_toggles" />
     </body>
 </html>

@@ -1,3 +1,21 @@
 img {
     width: 50vw;
 }
+
+.rsvp-rows {
+    margin-top: 3em;
+}
+
+.row {
+    width: 50%;
+    display: flex;
+    align-content: stretch;
+}
+
+.row-name {
+    flex-grow: 1;
+}
+
+.row-checkbox {
+    margin-right: 1em;
+}

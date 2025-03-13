@@ -67,11 +67,46 @@ app.get("/validate-token", async (req, res) => {
     }
 });
 
+const maybeWelcomePartyHtml = (row) => {
+    if (row.is_welcome_party_invitee === 0) {
+        return "";
+    }
+    return `
+        <div class="welcome-party-checkbox">
+            <input type="checkbox" />
+        </div>
+    `;
+};
+
+const rowHtml = (row) => {
+    return `
+        <div class="row">
+                <div class="row-name">
+                    ${row.name}
+                </div>
+                <div class="row-maybe-welcome-party row-checkbox">
+                    ${maybeWelcomePartyHtml(row)}
+                </div>
+                <div class="row-wedding-checkbox row-checkbox">
+                    <input type="checkbox" />
+                </div>
+        </div>
+        `;
+};
+
+const rsvpHtml = (rows) => {
+    return `
+        <div class="rsvp-rows">
+            ${rows.map(row => rowHtml(row)).join("")}
+        </div>
+    `;
+};
+
 app.post("/user", (req, res) => {
     const { name } = req.body;
-    console.log("name:", name);
+    console.log("in /user from POST name:", name);
     const members = getAllMembersInPartyWith(name);
-    res.send(members);
+    res.send(rsvpHtml(members));
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));
