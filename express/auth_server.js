@@ -73,21 +73,29 @@ app.get("/validate-token", async (req, res) => {
     }
 });
 
-const checkbox = (guestName, httpTarget) => {
+const checkbox = (guestName, httpTarget, isEnabled) => {
     const id = crypto.randomUUID();
     return `
         <form hx-post="/${httpTarget}" hx-trigger="change" hx-target="#todo-remove-me">
             <input type="hidden" name="${httpTarget}" value="${guestName}" />
-            <input hx-trigger="click" id="${id}" type="checkbox" name="${httpTarget}" value="yes" />
+            <input hx-trigger="click" id="${id}" type="checkbox" name="${httpTarget}" value="yes" ${isEnabled ? "checked" : ""} />
         </form>
         `;
 };
 
 const maybeWelcomePartyHtml = (row) => {
+    const { is_coming_to_welcome_party } = row;
+    const isComingToWelcomeParty = parseInt(is_coming_to_welcome_party) === 1;
     if (row.is_welcome_party_invitee === 0) {
         return "";
     }
-    return checkbox(row.name, "maybe_welcome_party");
+    return checkbox(row.name, "maybe_welcome_party", isComingToWelcomeParty);
+};
+
+const weddingPartyHtml = (row) => {
+    const { is_coming_to_wedding } = row;
+    const isComingToWedding = parseInt(is_coming_to_wedding) === 1;
+    return checkbox(row.name, "toggle_wedding_attendance", isComingToWedding);
 };
 
 const rowHtml = (row) => {
@@ -100,7 +108,7 @@ const rowHtml = (row) => {
                     ${maybeWelcomePartyHtml(row)}
                 </td>
                 <td class="row-wedding-checkbox row-checkbox">
-                    ${checkbox(row.name, "toggle_wedding_attendance")}
+                    ${weddingPartyHtml(row)}
                 </td>
         </tr>
         `;
@@ -130,6 +138,7 @@ app.post("/user", (req, res) => {
     const { name } = req.body;
     console.log("in /user from POST name:", name);
     const members = getAllMembersInPartyWith(name);
+    console.log("members", members);
     res.send(rsvpHtml(members));
 });
 
