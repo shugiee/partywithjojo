@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import Database from 'better-sqlite3';
 import * as fs from "fs";
 import * as dotenv from "dotenv";
+import crypto from "crypto";
 import { SignJWT, jwtVerify } from 'jose-node-esm-runtime';  // Use the ESM version for Node.js
 
 const app = express();
@@ -16,6 +17,11 @@ db.pragma('journal_mode = WAL');
 const getAllMembersInPartyWith = (name) => {
     const row = db.prepare('SELECT * FROM guests WHERE party_id IN (SELECT party_id FROM guests WHERE name = ?);').all(name);
     return row;
+};
+
+const toggleWeddingAttendanceForUser = (name, isEnabled) => {
+    const value = isEnabled ? 1 : 0;
+    db.prepare("UPDATE guests SET is_coming_to_wedding = ? WHERE name = ?").run(value, name);
 };
 
 const secretsPath = "/etc/partywithjojo/secrets.env";
@@ -67,38 +73,56 @@ app.get("/validate-token", async (req, res) => {
     }
 });
 
+const checkbox = (guestName, httpTarget) => {
+    const id = crypto.randomUUID();
+    return `
+        <form hx-post="/${httpTarget}" hx-trigger="change" hx-target="#todo-remove-me">
+            <input type="hidden" name="${httpTarget}" value="${guestName}" />
+            <input hx-trigger="click" id="${id}" type="checkbox" name="${httpTarget}" value="yes" />
+        </form>
+        `;
+};
+
 const maybeWelcomePartyHtml = (row) => {
     if (row.is_welcome_party_invitee === 0) {
         return "";
     }
-    return `
-        <div class="welcome-party-checkbox">
-            <input type="checkbox" />
-        </div>
-    `;
+    return checkbox(row.name, "maybe_welcome_party");
 };
 
 const rowHtml = (row) => {
     return `
-        <div class="row">
-                <div class="row-name">
+        <tr class="row">
+                <td class="row-name">
                     ${row.name}
-                </div>
-                <div class="row-maybe-welcome-party row-checkbox">
+                </td>
+                <td class="row-maybe-welcome-party row-checkbox">
                     ${maybeWelcomePartyHtml(row)}
-                </div>
-                <div class="row-wedding-checkbox row-checkbox">
-                    <input type="checkbox" />
-                </div>
-        </div>
+                </td>
+                <td class="row-wedding-checkbox row-checkbox">
+                    ${checkbox(row.name, "toggle_wedding_attendance")}
+                </td>
+        </tr>
         `;
 };
 
 const rsvpHtml = (rows) => {
     return `
-        <div class="rsvp-rows">
+        <table class="rsvp-table">
+            <colgroup>
+                <col span="1" class="col">
+                <col span="1" class="col">
+                <col span="1" class="col">
+            </colgroup>
+
+            <tbody>
+            <th>Name</th>
+            <th>Will attend Friday?</th>
+            <th>Will attend Saturday?</th>
             ${rows.map(row => rowHtml(row)).join("")}
-        </div>
+            </tbody>
+        <div id="todo-remove-me" />
+        </table>
     `;
 };
 
@@ -107,6 +131,16 @@ app.post("/user", (req, res) => {
     console.log("in /user from POST name:", name);
     const members = getAllMembersInPartyWith(name);
     res.send(rsvpHtml(members));
+});
+
+// TODO update param passed to have a better name
+app.post("/toggle_wedding_attendance", (req, res) => {
+    console.log("in /toggle_wedding_attendance from POST body:", req.body);
+    const { toggle_wedding_attendance } = req.body;
+    const isEnabled = Array.isArray(toggle_wedding_attendance) && toggle_wedding_attendance.includes("yes");
+    const name = Array.isArray(toggle_wedding_attendance) ? toggle_wedding_attendance[0] : toggle_wedding_attendance;
+    toggleWeddingAttendanceForUser(name, isEnabled);
+    res.sendStatus(200);
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));

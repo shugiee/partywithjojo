@@ -2,20 +2,20 @@ img {
     width: 50vw;
 }
 
-.rsvp-rows {
+th {
+    text-align: left;
+}
+
+.rsvp-table {
     margin-top: 3em;
+    width: 100%;
 }
 
 .row {
-    width: 50%;
-    display: flex;
-    align-content: stretch;
 }
 
 .row-name {
-    flex-grow: 1;
 }
 
 .row-checkbox {
-    margin-right: 1em;
 }
