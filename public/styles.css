@@ -11,11 +11,15 @@ th {
     width: 100%;
 }
 
-.row {
+.fade-out {
+    opacity: 0;
 }
 
-.row-name {
+.checkbox-container {
+    display: flex;
 }
 
-.row-checkbox {
+.success-message {
+    margin-left: 4px;
+    color: green;
 }

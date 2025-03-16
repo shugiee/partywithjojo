@@ -84,10 +84,14 @@ app.get("/validate-token", async (req, res) => {
 const checkbox = (guestName, httpTarget, isEnabled) => {
     const id = crypto.randomUUID();
     return `
-        <form hx-post="/${httpTarget}" hx-trigger="change" hx-target="#todo-remove-me">
-            <input type="hidden" name="${httpTarget}" value="${guestName}" />
-            <input id="${id}" type="checkbox" name="${httpTarget}" value="yes" ${isEnabled ? "checked" : ""} />
-        </form>
+        <div class="checkbox-container">
+            <form hx-post="/${httpTarget}" hx-trigger="change" hx-target="#success-message-${id}-container">
+                <input type="hidden" name="${httpTarget}" value="${guestName}" />
+                <input type="hidden" name="${httpTarget}" value="${id}" />
+                <input id="${id}" type="checkbox" name="${httpTarget}" value="yes" ${isEnabled ? "checked" : ""} />
+            </form>
+            <span id="success-message-${id}-container" />
+        </div>
         `;
 };
 
@@ -106,15 +110,15 @@ const weddingPartyHtml = (row) => {
 const rowHtml = (row) => {
     return `
         <tr class="row">
-                <td class="row-name">
-                    ${row.name}
-                </td>
-                <td class="row-maybe-welcome-party row-checkbox">
-                    ${maybeWelcomePartyHtml(row)}
-                </td>
-                <td class="row-wedding-checkbox row-checkbox">
-                    ${weddingPartyHtml(row)}
-                </td>
+            <td class="row-name">
+                ${row.name}
+            </td>
+            <td class="row-maybe-welcome-party row-checkbox">
+                ${maybeWelcomePartyHtml(row)}
+            </td>
+            <td class="row-wedding-checkbox row-checkbox">
+                ${weddingPartyHtml(row)}
+            </td>
         </tr>
         `;
 };
@@ -134,37 +138,46 @@ const rsvpHtml = (rows) => {
             <th>Will attend Saturday?</th>
             ${rows.map(row => rowHtml(row)).join("")}
             </tbody>
-        <div id="todo-remove-me" />
         </table>
     `;
 };
 
 app.post("/user", (req, res) => {
     const { name } = req.body;
-    console.log("in /user from POST name:", name);
     const members = getAllMembersInPartyWith(name);
-    console.log("members", members);
     res.send(rsvpHtml(members));
 });
+
+const toggleSuccessHtml = (id) => {
+    return `
+        <span id="success-message-${id}" class="success-message">Saved!</span>
+        <script>
+            setTimeout(() => {
+                document.getElementById("success-message-${id}").classList.add("fade-out");
+            }, 5000);
+        </script>
+        `;
+};
 
 // TODO update param passed to have a better name
 app.post("/toggle_wedding_attendance", (req, res) => {
     console.log("in /toggle_wedding_attendance from POST body:", req.body);
     const { toggle_wedding_attendance } = req.body;
-    const isEnabled = Array.isArray(toggle_wedding_attendance) && toggle_wedding_attendance.includes("yes");
-    const name = Array.isArray(toggle_wedding_attendance) ? toggle_wedding_attendance[0] : toggle_wedding_attendance;
+    const isEnabled = toggle_wedding_attendance.includes("yes");
+    const [name, id] = toggle_wedding_attendance;
     toggleWeddingAttendanceForUser(name, isEnabled);
-    res.sendStatus(200);
+    res.send(toggleSuccessHtml(id));
 });
 
 
 app.post("/toggle_welcome_party_attendance", (req, res) => {
     console.log("in /toggle_welcome_party_attendance from POST body:", req.body);
     const { toggle_welcome_party_attendance } = req.body;
-    const isEnabled = Array.isArray(toggle_welcome_party_attendance) && toggle_welcome_party_attendance.includes("yes");
-    const name = Array.isArray(toggle_welcome_party_attendance) ? toggle_welcome_party_attendance[0] : toggle_welcome_party_attendance;
+    const isEnabled = toggle_welcome_party_attendance.includes("yes");
+    const [name, id] = toggle_welcome_party_attendance;
+    console.log("ID", id);
     toggleWelcomePartyAttendanceForUser(name, isEnabled);
-    res.sendStatus(200);
+    res.send(toggleSuccessHtml(id));
 });
 
 app.get("/rsvps", (req, res) => {
