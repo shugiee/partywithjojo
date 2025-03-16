@@ -14,14 +14,23 @@ app.use(cookieParser());
 const db = new Database("/home/jay/partywithjojo/wedding.db", { verbose: console.log });
 db.pragma('journal_mode = WAL');
 
+const getAllRsvps = () => {
+    return db.prepare('SELECT * FROM guests;').all();
+};
+
 const getAllMembersInPartyWith = (name) => {
-    const row = db.prepare('SELECT * FROM guests WHERE party_id IN (SELECT party_id FROM guests WHERE name = ?);').all(name);
+    const row = db.prepare('SELECT * FROM guests WHERE party_id IN (SELECT party_id FROM guests WHERE name LIKE ?);').all(name);
     return row;
 };
 
 const toggleWeddingAttendanceForUser = (name, isEnabled) => {
     const value = isEnabled ? 1 : 0;
-    db.prepare("UPDATE guests SET is_coming_to_wedding = ? WHERE name = ?").run(value, name);
+    db.prepare("UPDATE guests SET is_coming_to_wedding = ? WHERE name LIKE ?").run(value, name);
+};
+
+const toggleWelcomePartyAttendanceForUser = (name, isEnabled) => {
+    const value = isEnabled ? 1 : 0;
+    db.prepare("UPDATE guests SET is_coming_to_welcome_party = ? WHERE name LIKE ?").run(value, name);
 };
 
 const secretsPath = "/etc/partywithjojo/secrets.env";
@@ -61,8 +70,8 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/validate-token", async (req, res) => {
-    console.log("calling validate token");
     const { token } = req.cookies;
+    console.log("calling validate token", token);
     try {
         await jwtVerify(token, SIGNED_WEDDING_SITE_JWT_SECRET_KEY, { issuer: ISSUER, audience: AUDIENCE });
         console.log("token is good");
@@ -78,7 +87,7 @@ const checkbox = (guestName, httpTarget, isEnabled) => {
     return `
         <form hx-post="/${httpTarget}" hx-trigger="change" hx-target="#todo-remove-me">
             <input type="hidden" name="${httpTarget}" value="${guestName}" />
-            <input hx-trigger="click" id="${id}" type="checkbox" name="${httpTarget}" value="yes" ${isEnabled ? "checked" : ""} />
+            <input id="${id}" type="checkbox" name="${httpTarget}" value="yes" ${isEnabled ? "checked" : ""} />
         </form>
         `;
 };
@@ -86,10 +95,7 @@ const checkbox = (guestName, httpTarget, isEnabled) => {
 const maybeWelcomePartyHtml = (row) => {
     const { is_coming_to_welcome_party } = row;
     const isComingToWelcomeParty = parseInt(is_coming_to_welcome_party) === 1;
-    if (row.is_welcome_party_invitee === 0) {
-        return "";
-    }
-    return checkbox(row.name, "maybe_welcome_party", isComingToWelcomeParty);
+    return checkbox(row.name, "toggle_welcome_party_attendance", isComingToWelcomeParty);
 };
 
 const weddingPartyHtml = (row) => {
@@ -150,6 +156,22 @@ app.post("/toggle_wedding_attendance", (req, res) => {
     const name = Array.isArray(toggle_wedding_attendance) ? toggle_wedding_attendance[0] : toggle_wedding_attendance;
     toggleWeddingAttendanceForUser(name, isEnabled);
     res.sendStatus(200);
+});
+
+
+app.post("/toggle_welcome_party_attendance", (req, res) => {
+    console.log("in /toggle_welcome_party_attendance from POST body:", req.body);
+    const { toggle_welcome_party_attendance } = req.body;
+    const isEnabled = Array.isArray(toggle_welcome_party_attendance) && toggle_welcome_party_attendance.includes("yes");
+    const name = Array.isArray(toggle_welcome_party_attendance) ? toggle_welcome_party_attendance[0] : toggle_welcome_party_attendance;
+    toggleWelcomePartyAttendanceForUser(name, isEnabled);
+    res.sendStatus(200);
+});
+
+app.get("/rsvps", (req, res) => {
+    console.log("getting all rsvps");
+    const rsvps = getAllRsvps();
+    res.send(rsvps);
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));
