@@ -1,2 +1,4 @@
 node_modules
 package-lock.json
+google-sheets/node_modules
+google-sheets/package-lock.json

@@ -39,8 +39,7 @@ if (fs.existsSync(secretsPath)) {
 } else {
   console.error(`Secrets file not found: ${secretsPath}`);
 }
-const { WEDDING_SITE_PASSWORD } = process.env;
-const { WEDDING_SITE_JWT_SECRET_KEY } = process.env;
+const { WEDDING_SITE_PASSWORD, WEDDING_SITE_JWT_SECRET_KEY } = process.env;
 const SIGNED_WEDDING_SITE_JWT_SECRET_KEY = new TextEncoder().encode(WEDDING_SITE_JWT_SECRET_KEY); 
 
 const ISSUER = "";
