@@ -23,8 +23,24 @@
             referrerpolicy="no-referrer-when-downgrade"
             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCDhUx8u5JVTNSRwPlDqJT3GMxoiUSkhaE&q=Beacon+Grand,San+Francisco+CA">
         </iframe>
+        <input type="text" id="spotify-search"></input>
+        <div id="spotify-search-results-container">
+            <h2>Search results</h2>
+            <div id="spotify-search-results" />
         <script>
-            const searchSpotify = async (spotifyToken, text) => {
+            function getCookie(name) {
+                return Object.fromEntries(
+                    document.cookie
+                    .split('; ')
+                    .map(cookie => cookie.split('='))
+                )[name] || null;
+            };
+            
+            const searchSpotify = async (e) => {
+                const spotifyToken = getCookie("spotify");
+                console.log("Spotify token", spotifyToken);
+                const text = e.target.value;
+                console.log("Searching spotify with text", text);
                 const params = new URLSearchParams();
                 params.append("q", text);
                 params.append("type", "track");
@@ -42,23 +58,18 @@
 
                     const json = await spotifyResponse.json();
                     console.log("Spotify response", json);
-                    return json;
+                    const searchResultsElement = document.getElementById("spotify-search-results");
+                    searchResultsElement.innerHTML = JSON.stringify(json.tracks.items.map(track => {
+                        const { name, artists } = track;
+                        return [name, artists.map(artist => artist.name)];
+                    })
+                    );
                 } catch (error) {
                     console.error("JOnathan error", error.message);
                     return null;
                 }
             };
-            function getCookie(name) {
-                return Object.fromEntries(
-                    document.cookie
-                    .split('; ')
-                    .map(cookie => cookie.split('='))
-                )[name] || null;
-            };
-            
-            const spotifyToken = getCookie("spotify");
-            console.log("Spotify token", spotifyToken);
-            const spotifyResponse = searchSpotify(spotifyToken, "muse");
+            document.getElementById("spotify-search").addEventListener("change", searchSpotify);
         </script>
     </body>
 </html>

@@ -88,8 +88,9 @@ app.post("/login", async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000 * 180, // 180 days
         });
 
-        // We don't want httpOnly, since we'll need to access this in JS
-        res.cookie("spotify", spotifyToken.access_token, { secure: true, sameSite: "Strict" });
+        // We don't want httpOnly, since we'll need to access this in JS. Tokens only last one hour.
+        res.cookie("spotify", spotifyToken.access_token, { secure: true, sameSite: "Strict", maxAge: 3_600_000 });
+        console.log("spotify token", spotifyToken.access_token);
         res.redirect("/home");
     } else {
         res.redirect("/entry.html");
@@ -101,6 +102,11 @@ app.get("/validate-token", async (req, res) => {
     console.log("calling validate token", token);
     try {
         await jwtVerify(token, SIGNED_WEDDING_SITE_JWT_SECRET_KEY, { issuer: ISSUER, audience: AUDIENCE });
+
+        // Rejuvenate the spotify token
+        const spotifyToken = await getSpotifyToken();
+        // We don't want httpOnly, since we'll need to access this in JS. Tokens only last one hour.
+        res.cookie("spotify", spotifyToken.access_token, { secure: true, sameSite: "Strict", maxAge: 3_600_000 });
         console.log("token is good");
         res.sendStatus(200);
     } catch (err) {
