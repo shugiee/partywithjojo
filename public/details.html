@@ -23,5 +23,42 @@
             referrerpolicy="no-referrer-when-downgrade"
             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCDhUx8u5JVTNSRwPlDqJT3GMxoiUSkhaE&q=Beacon+Grand,San+Francisco+CA">
         </iframe>
-	</body>
+        <script>
+            const searchSpotify = async (spotifyToken, text) => {
+                const params = new URLSearchParams();
+                params.append("q", text);
+                params.append("type", "track");
+                try {
+                    const spotifyResponse = await fetch(`https://api.spotify.com/v1/search?${params}`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${spotifyToken}`
+                        },
+                    });
+
+                    if (!spotifyResponse.ok) {
+                        throw new Error(`Response status: ${spotifyResponse.status}`);
+                    }
+
+                    const json = await spotifyResponse.json();
+                    console.log("Spotify response", json);
+                    return json;
+                } catch (error) {
+                    console.error("JOnathan error", error.message);
+                    return null;
+                }
+            };
+            function getCookie(name) {
+                return Object.fromEntries(
+                    document.cookie
+                    .split('; ')
+                    .map(cookie => cookie.split('='))
+                )[name] || null;
+            };
+            
+            const spotifyToken = getCookie("spotify");
+            console.log("Spotify token", spotifyToken);
+            const spotifyResponse = searchSpotify(spotifyToken, "muse");
+        </script>
+    </body>
 </html>

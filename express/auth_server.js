@@ -39,16 +39,41 @@ if (fs.existsSync(secretsPath)) {
 } else {
   console.error(`Secrets file not found: ${secretsPath}`);
 }
-const { WEDDING_SITE_PASSWORD, WEDDING_SITE_JWT_SECRET_KEY } = process.env;
+const { WEDDING_SITE_PASSWORD, WEDDING_SITE_JWT_SECRET_KEY, SPOTIFY_CLIENT_SECRET, SPOTIFY_CLIENT_ID } = process.env;
 const SIGNED_WEDDING_SITE_JWT_SECRET_KEY = new TextEncoder().encode(WEDDING_SITE_JWT_SECRET_KEY); 
 
 const ISSUER = "";
 const AUDIENCE = "";
 
+const getSpotifyToken = async () => {
+    try {
+        const spotifyResponse = await fetch("https://accounts.spotify.com/api/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `grant_type=client_credentials&client_id=${SPOTIFY_CLIENT_ID}&client_secret=${SPOTIFY_CLIENT_SECRET}`
+        });
+
+        if (!spotifyResponse.ok) {
+            throw new Error(`Response status: ${spotifyResponse.status}`);
+        }
+
+        const json = await spotifyResponse.json();
+        return json;
+    } catch (error) {
+        console.error("JOnathan error", error.message);
+        return null;
+    }
+}
+
+
 app.post("/login", async (req, res) => {
     const { password } = req.body;
 
     if (password === WEDDING_SITE_PASSWORD) {
+        const spotifyToken = await getSpotifyToken();
+
         const jwt = await new SignJWT({})
             .setProtectedHeader({ alg: "HS256" })
             .setIssuer("partywithjojo:host")
@@ -62,6 +87,9 @@ app.post("/login", async (req, res) => {
             sameSite: "Strict", // Prevents CSRF
             maxAge: 24 * 60 * 60 * 1000 * 180, // 180 days
         });
+
+        // We don't want httpOnly, since we'll need to access this in JS
+        res.cookie("spotify", spotifyToken.access_token, { secure: true, sameSite: "Strict" });
         res.redirect("/home");
     } else {
         res.redirect("/entry.html");
@@ -147,6 +175,34 @@ app.post("/user", (req, res) => {
     const members = getAllMembersInPartyWith(name);
     res.send(rsvpHtml(members));
 });
+
+// Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
+const token = 'BQDaEhRcCiBCFOyqCGMpZ3VOxj_aA0VYFWSDgRpcxm4hKrmLs-o_JcIbtJopyo_zrL0C7Ld1z-bMgiG-48M0ui6Csvg1G-QiDlFgJUdH2ow_kPekZhneGpMa2vTtuLKFcxKH794IaDAuyP7lBYDhKKXAq2KjsTvi84rRF9APhmkUoA5UB_EgmL0klDKkh-pwuISo-ouAbR9GSrGksGhVFl528yTgJjR_wk0vDDOB_8dGcI_CyB-WA3yOiVHhqxZv_bMzmKz5vBx2FqauMmJWHAVPskLcfUxxmAG84INs_-iZrt84TFUmJlUV';
+async function fetchWebApi(endpoint, method, body) {
+  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method,
+    body:JSON.stringify(body)
+  });
+  return await res.json();
+}
+
+async function getTopTracks(){
+  // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
+  return (await fetchWebApi(
+    'v1/me/top/tracks?time_range=long_term&limit=5', 'GET'
+  )).items;
+}
+
+const topTracks = await getTopTracks();
+console.log(
+  topTracks?.map(
+    ({name, artists}) =>
+      `${name} by ${artists.map(artist => artist.name).join(', ')}`
+  )
+);
 
 const toggleSuccessHtml = (id) => {
     return `
