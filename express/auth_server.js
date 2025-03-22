@@ -106,7 +106,9 @@ app.get("/validate-token", async (req, res) => {
         // Rejuvenate the spotify token
         const spotifyToken = await getSpotifyToken();
         // We don't want httpOnly, since we'll need to access this in JS. Tokens only last one hour.
-        res.cookie("spotify", spotifyToken.access_token, { secure: true, sameSite: "Strict", maxAge: 3_600_000 });
+        console.log("Setting spotify cookie", spotifyToken.access_token);
+        // res.cookie("spotify", spotifyToken.access_token, { secure: true, sameSite: "Strict", maxAge: 3_600_000 });
+        res.setHeader('X-Set-Cookie', `spotify=${spotifyToken.access_token}; Path=/; Secure; SameSite=Strict; Max-Age=3600000;`);
         console.log("token is good");
         res.sendStatus(200);
     } catch (err) {

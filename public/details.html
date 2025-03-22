@@ -23,7 +23,8 @@
             referrerpolicy="no-referrer-when-downgrade"
             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCDhUx8u5JVTNSRwPlDqJT3GMxoiUSkhaE&q=Beacon+Grand,San+Francisco+CA">
         </iframe>
-        <input type="text" id="spotify-search"></input>
+        <input type="text" id="spotify-search" />
+        <button id="spotify-search-submit">Search</button>
         <div id="spotify-search-results-container">
             <h2>Search results</h2>
             <div id="spotify-search-results" />
@@ -36,10 +37,10 @@
                 )[name] || null;
             };
             
-            const searchSpotify = async (e) => {
+            const searchSpotify = async () => {
                 const spotifyToken = getCookie("spotify");
                 console.log("Spotify token", spotifyToken);
-                const text = e.target.value;
+                const text = document.getElementById("spotify-search").value;
                 console.log("Searching spotify with text", text);
                 const params = new URLSearchParams();
                 params.append("q", text);
@@ -65,11 +66,11 @@
                     })
                     );
                 } catch (error) {
-                    console.error("JOnathan error", error.message);
+                    console.error("Jonathan error", error.message);
                     return null;
                 }
             };
-            document.getElementById("spotify-search").addEventListener("change", searchSpotify);
+            document.getElementById("spotify-search-submit").addEventListener("click", searchSpotify);
         </script>
     </body>
 </html>
