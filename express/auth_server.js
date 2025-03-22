@@ -6,6 +6,16 @@ import * as dotenv from "dotenv";
 import crypto from "crypto";
 import { SignJWT, jwtVerify } from 'jose-node-esm-runtime';  // Use the ESM version for Node.js
 
+const secretsPath = "/etc/partywithjojo/secrets.env";
+if (fs.existsSync(secretsPath)) {
+  dotenv.config({ path: secretsPath });
+} else {
+  console.error(`Secrets file not found: ${secretsPath}`);
+}
+
+const { WEDDING_SITE_PASSWORD, WEDDING_SITE_JWT_SECRET_KEY, SPOTIFY_CLIENT_SECRET, SPOTIFY_CLIENT_ID, SPOTIFY_REFRESH_TOKEN } = process.env;
+const SIGNED_WEDDING_SITE_JWT_SECRET_KEY = new TextEncoder().encode(WEDDING_SITE_JWT_SECRET_KEY); 
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Enable form parsing
@@ -33,15 +43,6 @@ const toggleWelcomePartyAttendanceForUser = (name, isEnabled) => {
     db.prepare("UPDATE guests SET is_coming_to_welcome_party = ? WHERE name LIKE ?").run(value, name);
 };
 
-const secretsPath = "/etc/partywithjojo/secrets.env";
-if (fs.existsSync(secretsPath)) {
-  dotenv.config({ path: secretsPath });
-} else {
-  console.error(`Secrets file not found: ${secretsPath}`);
-}
-const { WEDDING_SITE_PASSWORD, WEDDING_SITE_JWT_SECRET_KEY, SPOTIFY_CLIENT_SECRET, SPOTIFY_CLIENT_ID } = process.env;
-const SIGNED_WEDDING_SITE_JWT_SECRET_KEY = new TextEncoder().encode(WEDDING_SITE_JWT_SECRET_KEY); 
-
 const ISSUER = "";
 const AUDIENCE = "";
 
@@ -50,19 +51,23 @@ const getSpotifyToken = async () => {
         const spotifyResponse = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Authorization": "Basic " + Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString("base64"),
+                "content-type": "application/x-www-form-urlencoded"
             },
-            body: `grant_type=client_credentials&client_id=${SPOTIFY_CLIENT_ID}&client_secret=${SPOTIFY_CLIENT_SECRET}`
+            body: new URLSearchParams({
+                grant_type: "refresh_token",
+                refresh_token: SPOTIFY_REFRESH_TOKEN,
+            })
         });
+        const data = JSON.parse(await spotifyResponse.text());
 
         if (!spotifyResponse.ok) {
             throw new Error(`Response status: ${spotifyResponse.status}`);
         }
 
-        const json = await spotifyResponse.json();
-        return json;
+        return data;
     } catch (error) {
-        console.error("JOnathan error", error.message);
+        console.error("Jonathan error", error.message);
         return null;
     }
 }
@@ -90,7 +95,6 @@ app.post("/login", async (req, res) => {
 
         // We don't want httpOnly, since we'll need to access this in JS. Tokens only last one hour.
         res.cookie("spotify", spotifyToken.access_token, { secure: true, sameSite: "Strict", maxAge: 3_600_000 });
-        console.log("spotify token", spotifyToken.access_token);
         res.redirect("/home");
     } else {
         res.redirect("/entry.html");
@@ -106,8 +110,6 @@ app.get("/validate-token", async (req, res) => {
         // Rejuvenate the spotify token
         const spotifyToken = await getSpotifyToken();
         // We don't want httpOnly, since we'll need to access this in JS. Tokens only last one hour.
-        console.log("Setting spotify cookie", spotifyToken.access_token);
-        // res.cookie("spotify", spotifyToken.access_token, { secure: true, sameSite: "Strict", maxAge: 3_600_000 });
         res.setHeader('X-Set-Cookie', `spotify=${spotifyToken.access_token}; Path=/; Secure; SameSite=Strict; Max-Age=3600000;`);
         console.log("token is good");
         res.sendStatus(200);
@@ -204,14 +206,6 @@ async function getTopTracks(){
   )).items;
 }
 
-const topTracks = await getTopTracks();
-console.log(
-  topTracks?.map(
-    ({name, artists}) =>
-      `${name} by ${artists.map(artist => artist.name).join(', ')}`
-  )
-);
-
 const toggleSuccessHtml = (id) => {
     return `
         <span id="success-message-${id}" class="success-message">Saved!</span>
@@ -225,7 +219,6 @@ const toggleSuccessHtml = (id) => {
 
 // TODO update param passed to have a better name
 app.post("/toggle_wedding_attendance", (req, res) => {
-    console.log("in /toggle_wedding_attendance from POST body:", req.body);
     const { toggle_wedding_attendance } = req.body;
     const isEnabled = toggle_wedding_attendance.includes("yes");
     const [name, id] = toggle_wedding_attendance;
@@ -235,17 +228,14 @@ app.post("/toggle_wedding_attendance", (req, res) => {
 
 
 app.post("/toggle_welcome_party_attendance", (req, res) => {
-    console.log("in /toggle_welcome_party_attendance from POST body:", req.body);
     const { toggle_welcome_party_attendance } = req.body;
     const isEnabled = toggle_welcome_party_attendance.includes("yes");
     const [name, id] = toggle_welcome_party_attendance;
-    console.log("ID", id);
     toggleWelcomePartyAttendanceForUser(name, isEnabled);
     res.send(toggleSuccessHtml(id));
 });
 
 app.get("/rsvps", (req, res) => {
-    console.log("getting all rsvps");
     const rsvps = getAllRsvps();
     res.send(rsvps);
 });
