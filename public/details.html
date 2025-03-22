@@ -41,13 +41,12 @@
             const addToPlaylist = async (id) => {
                 const playlistId = "4Prc1zbrD2taosqI5usgcy";
                 const spotifyToken = getCookie("spotify");
-                console.log("Spotify token", spotifyToken);
-                const addToPlaylistResponse = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?uris=spotify:track:${id}`, {
+                const addToPlaylistResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=spotify:track:${id}`, {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${spotifyToken}`,
                         "Content-Type": "application/json",
-                    }
+                    },
                 });
 
                 if (!addToPlaylistResponse.ok) {
