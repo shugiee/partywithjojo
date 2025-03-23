@@ -133,10 +133,23 @@ const checkbox = (guestName, httpTarget, isEnabled) => {
         `;
 };
 
-const maybeWelcomePartyHtml = (row) => {
+const welcomePartyCheckbox = (row) => {
     const { is_coming_to_welcome_party } = row;
     const isComingToWelcomeParty = parseInt(is_coming_to_welcome_party) === 1;
     return checkbox(row.name, "toggle_welcome_party_attendance", isComingToWelcomeParty);
+
+};
+
+const maybeWelcomePartyRow = (row) => {
+    const { is_welcome_party_invitee } = row;
+    if (is_welcome_party_invitee === "1") {
+        return `
+            <td class="row-maybe-welcome-party row-checkbox">
+                ${welcomePartyCheckbox(row)}
+            </td>
+            `;
+    } 
+    return "";
 };
 
 const weddingPartyHtml = (row) => {
@@ -146,14 +159,13 @@ const weddingPartyHtml = (row) => {
 };
 
 const rowHtml = (row) => {
+    console.log(row);
     return `
         <tr class="row">
             <td class="row-name">
                 ${row.name}
             </td>
-            <td class="row-maybe-welcome-party row-checkbox">
-                ${maybeWelcomePartyHtml(row)}
-            </td>
+            ${maybeWelcomePartyRow(row)}
             <td class="row-wedding-checkbox row-checkbox">
                 ${weddingPartyHtml(row)}
             </td>
@@ -162,17 +174,18 @@ const rowHtml = (row) => {
 };
 
 const rsvpHtml = (rows) => {
+    const isAnyoneInvitedToWelcomeParty = rows.some(row => row.is_welcome_party_invitee === "1");
     return `
         <table class="rsvp-table">
             <colgroup>
                 <col span="1" class="col">
-                <col span="1" class="col">
+                ${isAnyoneInvitedToWelcomeParty ? '<col span="1" class="col">' : ""}
                 <col span="1" class="col">
             </colgroup>
 
             <tbody>
             <th>Name</th>
-            <th>Will attend Friday?</th>
+            ${isAnyoneInvitedToWelcomeParty ? '<th>Will attend Friday?</th>' : ""}
             <th>Will attend Saturday?</th>
             ${rows.map(row => rowHtml(row)).join("")}
             </tbody>
