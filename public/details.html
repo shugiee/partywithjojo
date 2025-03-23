@@ -2,10 +2,10 @@
 <html lang="en">
 	<head>
 		<title>Jordyn and Jonathan's Wedding - Event Details</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="UTF-8">
 		<meta name="description" content="Details page for Jordyn Levy and Jonathan Olson's wedding in 2025.">
-        <link rel="stylesheet" href="./styles.css" />
+        <link rel="stylesheet" href="./styles.css">
 	</head>
 	<body>
         <a href="./details">Event Details</a>
@@ -24,11 +24,13 @@
             referrerpolicy="no-referrer-when-downgrade"
             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCDhUx8u5JVTNSRwPlDqJT3GMxoiUSkhaE&q=Beacon+Grand,San+Francisco+CA">
         </iframe>
-        <input type="text" id="spotify-search" />
+        <input type="text" id="spotify-search">
         <button id="spotify-search-submit">Search</button>
+        <div id="spotify-playlist-items"></div>
         <div id="spotify-search-results-container">
             <h2>Search results</h2>
-            <div id="spotify-search-results" />
+            <div id="spotify-search-results"></div>
+        </div>
         <script>
             const getCookie = (name) => {
                 return Object.fromEntries(
@@ -36,6 +38,26 @@
                     .split('; ')
                     .map(cookie => cookie.split('='))
                 )[name] || null;
+            };
+
+            // TODO only get relevant fields from Spotify
+            const getPlaylistItems = async () => {
+                const playlistId = "4Prc1zbrD2taosqI5usgcy";
+                const spotifyToken = getCookie("spotify");
+                const playlistItemsResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${spotifyToken}`,
+                    },
+                });
+
+                const items = await playlistItemsResponse.json();
+
+                if (!playlistItemsResponse.ok) {
+                    throw new Error(`Response status: ${playlistItemsResponse.status}`);
+                } else {
+                    return items;
+                }
             };
 
             const addToPlaylist = async (id) => {
@@ -56,6 +78,13 @@
                 }
             };
 
+            const playlistItem = ({ id, name, artists }) => `
+                <div class="playlist-item">
+                    <div class="song-name">${name}</div>
+                    <div class="artists">${artists.join(" ")}</div>
+                </div>
+            `;
+
             const songSearchResult = ({ id, name, artists }) => `
                 <div class="search-result-container">
                     <button onclick="addToPlaylist('${id}')">
@@ -66,6 +95,19 @@
             `;
 
             const searchResults = (songs) => `<div id="search-results">${songs.map(song => songSearchResult(song)).join("")}</div>`;
+            const renderPlaylistItems = (songs) => `<div id="playlist-items">${songs.map(song => playlistItem(song)).join("")}</div>`;
+
+            const renderPlaylist = async () => {
+                const playlistItems = getPlaylistItems();
+                const playlistContainer = document.getElementById("spotify-playlist-items");
+                const { items } = await playlistItems;
+                const songs = items.map(({ track }) => {
+                    const { name, artists, id } = track;
+                    return { name, artists: artists.map(artist => artist.name), id };
+                });
+                playlistContainer.innerHTML = renderPlaylistItems(songs);
+            };
+            renderPlaylist();
             
             const searchSpotify = async () => {
                 const spotifyToken = getCookie("spotify");
