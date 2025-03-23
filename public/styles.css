@@ -1,5 +1,11 @@
-img {
-    width: 50vw;
+* {
+  font-family: "Mona Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+body {
+    margin: 0;
 }
 
 th {
@@ -8,6 +14,90 @@ th {
 
 button {
     cursor: pointer;
+}
+
+h1 {
+    margin: 0;
+    font-size: 4em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+#entry {
+    background-image: url("./miata_horizontal.webp");
+    height: 100vh;
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+    display: flex;
+    flex-direction: column;
+    color: #10191a;
+}
+
+.libre-baskerville-regular-italic {
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.entry-title {
+    color: white;
+    text-align: center;
+}
+
+
+.entry-input-container-outer {
+    backdrop-filter: blur(10px);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.entry-form {
+    margin-top: 2em;
+    display: flex;
+    align-items: center;
+}
+
+.entry-password {
+    border: 1px solid white;
+    background: transparent;
+    border-radius: 12px;
+    height: 24px;
+    padding-left: 1em;
+    color: white;
+}
+
+.entry-password::placeholder {
+    color: #ddd;
+}
+
+.icon {
+    fill: white;
+}
+
+.submit-button {
+    display: inline-flex;
+    margin-left: 0.5em;
+    border: 1px solid white;
+    background-color: transparent;
+    border-radius: 12px;
+    width: 24px;
+    height: 24px;
+}
+
+.entry-input-container-innermost {
+    backdrop-filter: blur(10px);
+}
+
+.entry-label {
+   display: flex;
+   font-size: 22px;
+   flex-direction: column;
 }
 
 .rsvp-table {
@@ -26,4 +116,8 @@ button {
 .success-message {
     margin-left: 4px;
     color: green;
+}
+
+.landing-image {
+    width: 100%;
 }
