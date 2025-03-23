@@ -2,10 +2,10 @@
 <html lang="en">
 	<head>
 		<title>Jordyn and Jonathan's Wedding - Home</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="UTF-8">
 		<meta name="description" content="Landing page for Jordyn Levy and Jonathan Olson's wedding in 2025.">
-        <link rel="stylesheet" href="./styles.css" />
+        <link rel="stylesheet" href="./styles.css">
         <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
         <!-- TODO REINSTATE PROD VERSION -->
         <!-- <link rel="prefetch" href="https://unpkg.com/htmx.org@2.0.4" />    -->
@@ -21,7 +21,7 @@
         <form>
             <label>
                 Please enter the first and last name of any member of your party.
-                <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith" />
+                <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith">
             </label>
             <button hx-post="/rsvp_get_user" hx-swap="innerHTML" hx-target="#rsvp_toggles">Continue</button>
         </form>
