@@ -4,6 +4,11 @@
   font-style: normal;
 }
 
+*:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
 body {
     margin: 0;
 }
