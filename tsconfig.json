@@ -8,5 +8,6 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "outDir": "./public",
     "lib": ["esnext", "dom"]
-  }
+  },
+  "include": ["src/**/*"]
 }

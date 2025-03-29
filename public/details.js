@@ -16,8 +16,8 @@ const getCookie = (name) => {
 // TODO only get relevant fields from Spotify
 const getPlaylistItems = () => __awaiter(void 0, void 0, void 0, function* () {
     const playlistId = "4Prc1zbrD2taosqI5usgcy";
-    const spotifyToken = getCookie("spotify");
-    const playlistItemsResponse = yield fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50`, {
+    const spotifyToken = getCookie("todoxcxc");
+    const playlistItemsResponse = yield fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50&fields=items(track(name))`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${spotifyToken}`,
