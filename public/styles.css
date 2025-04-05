@@ -1,7 +1,14 @@
+@font-face {
+    font-family: 'Bright';
+    src: url('fonts/Bright.woff2') format('woff2'),
+        url('fonts/Bright.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
-  font-family: "Mona Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+  font-family: "Bright", serif;
 }
 
 *:focus {
