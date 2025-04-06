@@ -6,6 +6,8 @@
     :root {
         --h1-font-size: 6em;
         --h2-font-size: 3em;
+        --input-font-size: 2em;
+        --input-height: 1em;
     }
 }
 
@@ -13,6 +15,8 @@
     :root {
         --h1-font-size: 5em;
         --h2-font-size: 2em;
+        --input-font-size: 1.5em;
+        --input-height: 1em;
     }
 }
 
@@ -91,10 +95,10 @@ h2 {
 .entry-input {
     background: transparent;
     border: 2px solid;
-    border-radius: 1em;
-    font-size: 2em;
+    border-radius: var(--input-height);
+    font-size: var(--input-font-size);
     padding-left: .5em;
-    height: 1em;
+    height: var(--input-height);
 }
 
 .entry-input::placeholder {
@@ -104,11 +108,11 @@ h2 {
 .submit-button {
     display: inline-flex;
     margin-left: 0.5em;
-    border: 2px solid;
+    border: none;
     background-color: transparent;
     border-radius: 1.5em;
-    width: 3em;
-    height: 3em;
+    width: calc(var(--input-font-size) + var(--input-height));
+    height: calc(var(--input-font-size) + var(--input-height));
 }
 
 .entry-label {
