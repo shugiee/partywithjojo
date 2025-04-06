@@ -62,7 +62,7 @@ h2 {
 }
 
 #entry {
-    background-image: url("./miata_horizontal.webp");
+    background-image: url("/miata_horizontal.webp");
     height: 100vh;
     background-size:     cover;
     background-repeat:   no-repeat;
