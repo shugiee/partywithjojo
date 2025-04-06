@@ -1,12 +1,15 @@
 :root {
     --h1-font-size: 7em;
+    --h2-font-size: 3.5em;
+    --input-font-size: 2em;
+    --input-height: 1em;
 }
 
 @media screen and (max-width: 600px) {
     :root {
         --h1-font-size: 6em;
         --h2-font-size: 3em;
-        --input-font-size: 2em;
+        --input-font-size: 1.5em;
         --input-height: 1em;
     }
 }
