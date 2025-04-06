@@ -1,3 +1,21 @@
+:root {
+    --h1-font-size: 7em;
+}
+
+@media screen and (max-width: 600px) {
+    :root {
+        --h1-font-size: 6em;
+        --h2-font-size: 3em;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    :root {
+        --h1-font-size: 5em;
+        --h2-font-size: 2em;
+    }
+}
+
 @font-face {
     font-family: 'Bright';
     src: url('fonts/Bright.woff2') format('woff2'),
@@ -9,6 +27,8 @@
 
 * {
   font-family: "Bright", serif;
+  font-feature-settings: "liga" 0;
+  font-variant-ligatures: none;
 }
 
 *:focus {
@@ -30,11 +50,11 @@ button {
 
 h1 {
     margin: 0;
-    font-size: 4em;
+    font-size: var(--h1-font-size);
 }
 
 h2 {
-    font-size: 2em;
+    font-size: var(--h2-font-size);
 }
 
 #entry {
@@ -48,19 +68,12 @@ h2 {
     color: #10191a;
 }
 
-.libre-baskerville-regular-italic {
-  font-family: "Libre Baskerville", serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
 .entry-title {
-    color: white;
     text-align: center;
 }
 
-
 .entry-input-container-outer {
+    background-color: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(10px);
     flex-grow: 1;
     display: flex;
@@ -75,35 +88,27 @@ h2 {
     align-items: center;
 }
 
-.entry-password {
-    border: 1px solid white;
+.entry-input {
     background: transparent;
-    border-radius: 12px;
-    height: 24px;
-    padding-left: 1em;
-    color: white;
+    border: 2px solid;
+    border-radius: 1em;
+    font-size: 2em;
+    padding-left: .5em;
+    height: 1em;
 }
 
-.entry-password::placeholder {
-    color: #ddd;
-}
-
-.icon {
-    fill: white;
+.entry-input::placeholder {
+    color: #103455;
 }
 
 .submit-button {
     display: inline-flex;
     margin-left: 0.5em;
-    border: 1px solid white;
+    border: 2px solid;
     background-color: transparent;
-    border-radius: 12px;
-    width: 24px;
-    height: 24px;
-}
-
-.entry-input-container-innermost {
-    backdrop-filter: blur(10px);
+    border-radius: 1.5em;
+    width: 3em;
+    height: 3em;
 }
 
 .entry-label {
@@ -132,4 +137,10 @@ h2 {
 
 .landing-image {
     width: 100%;
+}
+
+.blue {
+    color: #103455;   
+    fill: #103455;
+    border-color: #103455;
 }
