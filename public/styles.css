@@ -75,6 +75,16 @@ h2 {
     color: #10191a;
 }
 
+#home {
+    background-color: #e0e479;
+    height: 100vh;
+}
+
+#accommodations {
+    background-color: #fdf4e4;
+    height: 100vh;
+}
+
 .entry-title {
     text-align: center;
 }
