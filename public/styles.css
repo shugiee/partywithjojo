@@ -90,7 +90,7 @@ h2 {
 }
 
 .entry-input-container-outer {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(10px);
     flex-grow: 1;
     display: flex;
@@ -160,4 +160,8 @@ h2 {
     color: #103455;   
     fill: #103455;
     border-color: #103455;
+}
+
+.pink {
+    color: #ea2c6a;
 }
