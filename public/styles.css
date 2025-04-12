@@ -284,3 +284,7 @@ tr {
 .pink {
     color: var(--pink);
 }
+
+.black {
+    color: black;
+}
