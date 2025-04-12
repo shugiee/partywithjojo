@@ -161,20 +161,23 @@ const rowHtml = (row) => {
 const rsvpHtml = (rows) => {
     const isAnyoneInvitedToWelcomeParty = rows.some(row => row.is_welcome_party_invitee === "1");
     return `
-        <table class="rsvp-table">
-            <colgroup>
-                <col span="1" class="col">
-                ${isAnyoneInvitedToWelcomeParty ? '<col span="1" class="col">' : ""}
-                <col span="1" class="col">
-            </colgroup>
+        <div>
+            <table class="rsvp-table">
+                <colgroup>
+                    <col span="1" class="col">
+                    ${isAnyoneInvitedToWelcomeParty ? '<col span="1" class="col">' : ""}
+                    <col span="1" class="col">
+                </colgroup>
 
-            <tbody>
-            <th>Name</th>
-            ${isAnyoneInvitedToWelcomeParty ? '<th>Will attend Friday?</th>' : ""}
-            <th>Will attend Saturday?</th>
-            ${rows.map(row => rowHtml(row)).join("")}
-            </tbody>
-        </table>
+                <tbody>
+                <th>Name</th>
+                ${isAnyoneInvitedToWelcomeParty ? '<th>Will attend Friday?</th>' : ""}
+                <th>Will attend Saturday?</th>
+                ${rows.map(row => rowHtml(row)).join("")}
+                </tbody>
+            </table>
+            <p class="note">Changes save automatically!</p>
+        </div>
     `;
 };
 app.post("/user", (req, res) => {

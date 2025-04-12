@@ -190,6 +190,10 @@ tr {
     text-decoration: underline;
 }
 
+.note {
+    font-size: 1.5em;
+}
+
 .entry-title {
     text-align: center;
 }
@@ -243,6 +247,7 @@ tr {
     display: flex;
     justify-content: space-between;
     text-decoration: none;
+    margin-bottom: 2em;
 }
 
 .rsvp-table {
