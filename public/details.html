@@ -1,40 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Jordyn and Jonathan's Wedding - Event Details</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="UTF-8">
-        <meta name="description" content="Details page for Jordyn Levy and Jonathan Olson's wedding in 2025.">
-        <link rel="stylesheet" href="./styles.css">
-    </head>
-    <body>
-        <div id="details" class="page">
-            <div class="nav-bar">
-                <a href="./home">Home</a>
-                <a href="./details">Event Details</a>
-                <a href="./accommodations">Accommodations</a>
-                <a href="./registry">Registry</a>
-                <a href="./faq">FAQs</a>
-                <a href="./rsvp">RSVP</a>
-            </div>
-            <h1>Event Details</h1>
-            <iframe
-                    width="600"
-                    height="450"
-                    style="border:0"
-                    loading="lazy"
-                    allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCDhUx8u5JVTNSRwPlDqJT3GMxoiUSkhaE&q=Beacon+Grand,San+Francisco+CA">
-            </iframe>
-            <input type="text" id="spotify-search">
-            <button id="spotify-search-submit">Search</button>
-            <div id="spotify-playlist-items"></div>
-            <div id="spotify-search-results-container">
-                <h2>Search results</h2>
-                <div id="spotify-search-results"></div>
-            </div>
-            <script src="./details.js"></script>
+
+<head>
+    <title>Jordyn and Jonathan's Wedding - Event Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="description" content="Details page for Jordyn Levy and Jonathan Olson's wedding in 2025.">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <div id="details" class="page">
+        <div class="nav-bar">
+            <a href="./home">Home</a>
+            <a href="./details">Event Details</a>
+            <a href="./accommodations">Accommodations</a>
+            <a href="./registry">Registry</a>
+            <a href="./faq">FAQs</a>
+            <a href="./rsvp">RSVP</a>
         </div>
-    </body>
+        <h1>Event Details</h1>
+        <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCDhUx8u5JVTNSRwPlDqJT3GMxoiUSkhaE&q=Beacon+Grand,San+Francisco+CA">
+        </iframe>
+        <input type="text" id="spotify-search">
+        <button id="spotify-search-submit">Search</button>
+        <div id="spotify-playlist-items"></div>
+        <div id="spotify-search-results-container">
+            <h2>Search results</h2>
+            <div id="spotify-search-results"></div>
+        </div>
+        <script src="./details.js"></script>
+    </div>
+</body>
+
 </html>

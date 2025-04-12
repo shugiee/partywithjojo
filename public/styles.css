@@ -43,9 +43,9 @@
 }
 
 * {
-  font-family: "Bright", serif;
-  font-feature-settings: "liga" 0;
-  font-variant-ligatures: none;
+    font-family: "Bright", serif;
+    font-feature-settings: "liga" 0;
+    font-variant-ligatures: none;
 }
 
 *:focus {
@@ -82,15 +82,20 @@ a {
     border-radius: 8px;
 }
 
-p, label, input, button, th, tr {
+p,
+label,
+input,
+button,
+th,
+tr {
     font-size: 2em;
 }
 
 #entry {
     background-image: url("/miata_horizontal.webp");
     height: 100vh;
-    background-size:     cover;
-    background-repeat:   no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
     background-position: center center;
     display: flex;
     flex-direction: column;
@@ -185,9 +190,9 @@ p, label, input, button, th, tr {
 }
 
 .entry-label {
-   display: flex;
-   font-size: 22px;
-   flex-direction: column;
+    display: flex;
+    font-size: 22px;
+    flex-direction: column;
 }
 
 .nav-bar {
@@ -219,7 +224,7 @@ p, label, input, button, th, tr {
 }
 
 .blue {
-    color: #103455;   
+    color: #103455;
     fill: #103455;
     border-color: #103455;
 }
