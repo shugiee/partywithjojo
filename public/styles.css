@@ -3,7 +3,16 @@
     --h2-font-size: 3.5em;
     --input-font-size: 2em;
     --input-height: 1em;
-    --pink: 234, 44, 106;
+    --pink: 234 44 106;
+    --yellow: 254 220 123;
+    --green: 70 112 16;
+    --blue: 0 128 128;
+    --light-pink: 255 198 195;
+    --dark-green: 11 96 67;
+    --orange: 254 176 106;
+    --burnt-orange: 255 108 31;
+    --cream: 242 238 233;
+    --light-blue: 150 173 214;
 }
 
 @media screen and (max-width: 600px) {
@@ -99,8 +108,33 @@ p, label, input, button, th, tr {
 }
 
 #accommodations {
-    background-color: #fdf4e4;
     height: 100vh;
+    background-color: rgb(var(--dark-green));
+    color: rgb(var(--light-pink));
+}
+
+#registry {
+    height: 100vh;
+    background-color: rgb(var(--yellow));
+    color: rgb(var(--burnt-orange));
+}
+
+#details {
+    height: 100vh;
+    background-color: rgb(var(--light-pink));
+    color: rgb(var(--blue));
+}
+
+#faq {
+    height: 100vh;
+    background-color: rgb(var(--orange));
+    color: rgb(var(--dark-green));
+}
+
+#rsvp {
+    height: 100vh;
+    background-color: rgb(var(--cream));
+    color: rgb(var(--light-blue));
 }
 
 .page {
