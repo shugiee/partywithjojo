@@ -12,20 +12,24 @@
         <link rel="stylesheet" href="./styles.css">
     </head>
     <body>
-        <a href="./details">Event Details</a>
-        <a href="./home">Home</a>
-        <a href="./accommodations">Accommodations</a>
-        <a href="./registry">Registry</a>
-        <a href="./faq">FAQs</a>
-        <a href="./rsvp">RSVP</a>
-        <h1>Party with JoJo - RSVP</h1>
-        <form>
-            <label>
-                Please enter the first and last name of any member of your party.
-                <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith">
-            </label>
-            <button hx-post="/rsvp_get_user" hx-swap="innerHTML" hx-target="#rsvp_toggles">Continue</button>
-        </form>
-        <div id="rsvp_toggles"></div>
+        <div id="rsvp"  class="page">
+            <div class="nav-bar">
+                <a href="./home">Home</a>
+                <a href="./details">Event Details</a>
+                <a href="./accommodations">Accommodations</a>
+                <a href="./registry">Registry</a>
+                <a href="./faq">FAQs</a>
+                <a href="./rsvp">RSVP</a>
+            </div>
+            <h1>RSVP</h1>
+            <form>
+                <label>
+                    Please enter the first and last name of any member of your party.
+                    <input type="text" id="name" name="name" required minlength="5" size="25" placeholder="John Smith">
+                </label>
+                <button hx-post="/rsvp_get_user" hx-swap="innerHTML" hx-target="#rsvp_toggles">Continue</button>
+            </form>
+            <div id="rsvp_toggles"></div>
+        </div>
     </body>
 </html>
