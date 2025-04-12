@@ -124,6 +124,22 @@ tr {
     color: rgb(var(--burnt-orange));
 }
 
+#registry-links {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#west-elm-link {
+    border: 1px solid #565458;
+}
+
+#crate-and-barrel-link {
+    border: 1px solid black;
+    color: black;
+}
+
 #details {
     height: 100vh;
     background-color: rgb(var(--light-pink));
@@ -221,6 +237,14 @@ tr {
 
 .landing-image {
     width: 100%;
+}
+
+.registry-link {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
 }
 
 .blue {
