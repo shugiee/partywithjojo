@@ -13,6 +13,8 @@
     --burnt-orange: 255 108 31;
     --cream: 242 238 233;
     --light-blue: 150 173 214;
+    --spotify-green: #1ed760;
+    --spotify-grey: 179 179 179;
 }
 
 @media screen and (max-width: 600px) {
@@ -42,10 +44,25 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'SpotifyMixUi';
+    src: url('fonts/Spotify.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*
+ * OLD FONT - for login and home
+font-family: "Bright", serif;
+font-feature-settings: "liga" 0;
+font-variant-ligatures: none;
+ */
+
 * {
-    font-family: "Bright", serif;
-    font-feature-settings: "liga" 0;
-    font-variant-ligatures: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 *:focus {
@@ -84,16 +101,19 @@ a {
 
 p,
 label,
-input,
-button,
 th,
 tr {
     font-size: 2em;
 }
 
+input,
+button {
+    font-size: 1.5em;
+}
+
 #entry {
     background-image: url("/miata_horizontal.webp");
-    height: 100vh;
+    min-height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -104,11 +124,11 @@ tr {
 
 #home {
     background-color: #e0e479;
-    height: 100vh;
+    min-height: 100vh;
     color: rgb(var(--pink));
 
     a:hover {
-        background-color: rgba(var(--pink), 0.2);
+        outline: 2px solid rgb(var(--pink));
     }
 
     *:focus {
@@ -117,9 +137,13 @@ tr {
 }
 
 #accommodations {
-    height: 100vh;
+    min-height: 100vh;
     background-color: rgb(var(--dark-green));
     color: rgb(var(--light-pink));
+
+    a:hover {
+        outline: 2px solid rgb(var(--light-pink));
+    }
 
     *:focus {
         outline-color: rgb(var(--light-pink));
@@ -127,12 +151,16 @@ tr {
 }
 
 #registry {
-    height: 100vh;
+    min-height: 100vh;
     background-color: rgb(var(--yellow));
     color: rgb(var(--burnt-orange));
 
+    a:hover {
+        outline: 2px solid rgb(var(--burnt-orange));
+    }
+
     *:focus {
-        outline-color: rgb(var(--yellow));
+        outline-color: rgb(var(--burnt-orange));
     }
 }
 
@@ -153,19 +181,98 @@ tr {
 }
 
 #details {
-    height: 100vh;
+    min-height: 100vh;
     background-color: rgb(var(--light-pink));
     color: rgb(var(--blue));
+
+    a:hover {
+        outline: 2px solid rgb(var(--blue));
+    }
 
     *:focus {
         outline-color: rgb(var(--blue));
     }
 }
 
+.spotify {
+    font-family: "SpotifyMixUi", sans-serif !important;
+}
+
+#spotify-icon {
+    height: 1em;
+}
+
+.spotify-search-results-container {
+    display: flex;
+}
+
+#spotify-search-results {
+    width: fit-content;
+    min-width: 50vw;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0.5em;
+}
+
+.spotify-search-result {
+    background-color: black;
+    text-align: left;
+    border: none;
+    display: flex;
+    padding: 0;
+    margin: 0.5em 0.5em 0 0.5em;
+    border-radius: 4px;
+    height: 2.5em;
+    align-items: center;
+}
+
+.song-index {
+    color: rgb(var(--spotify-grey));
+    width: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+.spotify-search-title {
+    color: black;
+}
+
+.spotify-search-result:hover {
+    background-color: hsla(0, 0%, 100%, .3);
+}
+
+.spotify-album-image {
+    height: 2em;
+}
+
+.spotify-song-title {
+    font-size: 16px;
+    color: var(--spotify-green);
+}
+
+.spotify-song-title-and-artists {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 0.5em;
+}
+
+.spotify-artists-names {
+    font-size: 14px;
+    color: rgb(var(--spotify-grey));
+}
+
 #faq {
-    height: 100vh;
+    min-height: 100vh;
     background-color: rgb(var(--orange));
     color: rgb(var(--dark-green));
+
+    a:hover {
+        outline: 2px solid rgb(var(--dark-green));
+    }
 
     *:focus {
         outline-color: rgb(var(--dark-green));
@@ -173,9 +280,13 @@ tr {
 }
 
 #rsvp {
-    height: 100vh;
+    min-height: 100vh;
     background-color: rgb(var(--cream));
     color: rgb(var(--light-blue));
+
+    a:hover {
+        outline: 2px solid rgb(var(--light-blue));
+    }
 
     *:focus {
         outline-color: rgb(var(--light-blue));
