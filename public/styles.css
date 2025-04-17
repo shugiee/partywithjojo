@@ -183,6 +183,8 @@ button {
   min-height: 100vh;
   background-color: black;
   color: rgb(var(--blue));
+  width: fit-content;
+  min-width: 100vw;
 }
 
 .spotify {
@@ -304,8 +306,10 @@ button {
 #home,
 #accommodations,
 /* #details */
-#registry, {
+#registry {
   background-color: var(--cream);
+  width: fit-content;
+  min-width: 100vw;
 }
 
 #faq {
