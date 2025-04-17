@@ -187,6 +187,7 @@ button {
 
 .spotify {
   font-family: "SpotifyMixUi", sans-serif !important;
+  color: var(--spotify-green);
 }
 
 #spotify-icon {
@@ -194,7 +195,7 @@ button {
 }
 
 #spotify-search-input {
-  background-color: rgb(31, 31, 31);
+  background-color: rgb(73, 73, 73);
   padding-left: 2em;
   color: white;
   height: 2em;
@@ -220,6 +221,11 @@ button {
   display: flex;
 }
 
+#spotify-search-submit {
+  border: 1px solid var(--spotify-green);
+  background-color: black;
+}
+
 .spotify-songs-container {
   width: fit-content;
   min-width: 50vw;
@@ -227,6 +233,25 @@ button {
   display: flex;
   flex-direction: column;
   padding-bottom: 0.5em;
+  max-height: 19em;
+  overflow: scroll;
+}
+
+.song-added-indicator {
+  color: var(--spotify-green);
+  align-self: flex-start;
+  margin-left: 5em;
+  display: none;
+  flex-grow: 1;
+  text-align: end;
+}
+
+.song-already-added-indicator {
+  color: var(--spotify-green);
+  align-self: flex-start;
+  margin-left: 5em;
+  flex-grow: 1;
+  text-align: end;
 }
 
 .spotify-song-row {
@@ -234,10 +259,9 @@ button {
   text-align: left;
   border: none;
   display: flex;
-  padding: 0;
+  padding: 5px;
   margin: 0.5em 0.5em 0 0.5em;
   border-radius: 4px;
-  height: 2.5em;
   align-items: center;
 }
 
@@ -250,11 +274,7 @@ button {
   font-size: 16px;
 }
 
-.spotify-search-title {
-  color: var(--spotify-green);
-}
-
-#spotify-search-results-container .spotify-song-row:hover {
+#spotify-search-results-container button.spotify-song-row:hover {
   background-color: hsla(0, 0%, 100%, 0.3);
 }
 

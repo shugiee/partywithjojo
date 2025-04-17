@@ -27,6 +27,8 @@ interface PlaylistItems {
   items: { track: Song }[];
 }
 
+const songIds = new Set<string>();
+
 const getCookie = (name: string) => {
   return (
     Object.fromEntries(
@@ -35,12 +37,11 @@ const getCookie = (name: string) => {
   );
 };
 
-// TODO only get relevant fields from Spotify
 const getPlaylistItems = async () => {
   const playlistId = "4Prc1zbrD2taosqI5usgcy";
   const spotifyToken = getCookie("spotify");
   const playlistItemsResponse = await fetch(
-    `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50&fields=items(track(name,artists,album))`,
+    `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50&fields=items(track(name,artists,album,id))`,
     {
       method: "GET",
       headers: {
@@ -58,7 +59,21 @@ const getPlaylistItems = async () => {
   }
 };
 
+const showSongAddedConfirmation = (id: string) => {
+  const button = document.getElementById(
+    `song-button-${id}`,
+  ) as HTMLButtonElement;
+  button.setAttribute("style", "cursor: auto; background: none");
+  button.disabled = true;
+  (
+    document.getElementById(`${id}-added-indicator`) as HTMLDivElement
+  ).setAttribute("style", "display: block");
+};
+
 const addToPlaylist = async (id: string) => {
+  const isAlreadyInPlaylist = songIds.has(id);
+  if (isAlreadyInPlaylist) {
+  }
   const playlistId = "4Prc1zbrD2taosqI5usgcy";
   const spotifyToken = getCookie("spotify");
   const addToPlaylistResponse = await fetch(
@@ -73,9 +88,12 @@ const addToPlaylist = async (id: string) => {
   );
 
   if (!addToPlaylistResponse.ok) {
-    throw new Error(`Response status: ${addToPlaylistResponse.status}`);
+    throw new Error(
+      `Failed to add song! Response status: ${addToPlaylistResponse.status}`,
+    );
   } else {
-    console.log(`Added id ${id} to playlist!`);
+    showSongAddedConfirmation(id);
+    renderPlaylist({ scrollToBottom: true });
   }
 };
 
@@ -94,25 +112,54 @@ ${songRow(idx, song)}
 </div>
 `;
 
-const songSearchResult = (idx: number, song: Song) => `
-<button class="spotify-song-row">
+const songSearchResult = (idx: number, song: Song) => {
+  const alreadyAdded = songIds.has(song.id);
+  const elementType = alreadyAdded ? "div" : "button";
+  const alreadyAddedIndicator = alreadyAdded
+    ? `<span id="${song.id}-already-added-indicator" class="${songIds.has(song.id) ? "song-already-added-indicator" : ""}">Already added!</span>`
+    : "";
+  const onClick = alreadyAdded ? "" : `onclick="addToPlaylist('${song.id}')"`;
+  return `
+<${elementType} class="spotify-song-row" ${onClick} id="song-button-${song.id}">
 ${songRow(idx, song)}
-</button>
+<span id="${song.id}-added-indicator" class="song-added-indicator">Added!</span>
+${alreadyAddedIndicator}
+</${elementType}>
 `;
+};
 
 const searchResults = (songs: Song[]) =>
   `<div class="spotify-songs-container">${songs.map((song, idx) => songSearchResult(idx, song)).join("")}</div>`;
 const renderPlaylistItems = (songs: Song[]) =>
   `<div class="spotify-songs-container">${songs.map((song, idx) => playlistItem(idx, song)).join("")}</div>`;
 
-const renderPlaylist = async () => {
+const renderPlaylist = async ({
+  scrollToBottom,
+}: {
+  scrollToBottom?: boolean;
+} = {}) => {
   const playlistItems = getPlaylistItems();
   const playlistContainer = document.getElementById("spotify-playlist-items");
   const { items } = await playlistItems;
   const songs = items.map((item) => item.track);
 
+  // Track songs in the playlist to prevent duplicates
+  for (const song of songs) {
+    songIds.add(song.id);
+  }
+
   if (playlistContainer) {
     playlistContainer.innerHTML = renderPlaylistItems(songs);
+    if (scrollToBottom) {
+      console.log("SCROLLIN");
+      const playlistItems = playlistContainer.getElementsByClassName(
+        "spotify-songs-container",
+      )[0];
+      playlistItems.scrollTo({
+        top: playlistItems.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   } else {
     throw new Error("Could not find playlist container");
   }

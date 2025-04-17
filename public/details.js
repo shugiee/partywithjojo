@@ -8,14 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const songIds = new Set();
 const getCookie = (name) => {
     return (Object.fromEntries(document.cookie.split("; ").map((cookie) => cookie.split("=")))[name] || null);
 };
-// TODO only get relevant fields from Spotify
 const getPlaylistItems = () => __awaiter(void 0, void 0, void 0, function* () {
     const playlistId = "4Prc1zbrD2taosqI5usgcy";
     const spotifyToken = getCookie("spotify");
-    const playlistItemsResponse = yield fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50&fields=items(track(name,artists,album))`, {
+    const playlistItemsResponse = yield fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=50&fields=items(track(name,artists,album,id))`, {
         method: "GET",
         headers: {
             Authorization: `Bearer ${spotifyToken}`,
@@ -29,7 +29,16 @@ const getPlaylistItems = () => __awaiter(void 0, void 0, void 0, function* () {
         return items;
     }
 });
+const showSongAddedConfirmation = (id) => {
+    const button = document.getElementById(`song-button-${id}`);
+    button.setAttribute("style", "cursor: auto; background: none");
+    button.disabled = true;
+    document.getElementById(`${id}-added-indicator`).setAttribute("style", "display: block");
+};
 const addToPlaylist = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const isAlreadyInPlaylist = songIds.has(id);
+    if (isAlreadyInPlaylist) {
+    }
     const playlistId = "4Prc1zbrD2taosqI5usgcy";
     const spotifyToken = getCookie("spotify");
     const addToPlaylistResponse = yield fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=spotify:track:${id}`, {
@@ -40,10 +49,11 @@ const addToPlaylist = (id) => __awaiter(void 0, void 0, void 0, function* () {
         },
     });
     if (!addToPlaylistResponse.ok) {
-        throw new Error(`Response status: ${addToPlaylistResponse.status}`);
+        throw new Error(`Failed to add song! Response status: ${addToPlaylistResponse.status}`);
     }
     else {
-        console.log(`Added id ${id} to playlist!`);
+        showSongAddedConfirmation(id);
+        renderPlaylist({ scrollToBottom: true });
     }
 });
 const songRow = (idx, { id, name, artists, album }) => `
@@ -59,20 +69,42 @@ const playlistItem = (idx, song) => `
 ${songRow(idx, song)}
 </div>
 `;
-const songSearchResult = (idx, song) => `
-<button class="spotify-song-row">
+const songSearchResult = (idx, song) => {
+    const alreadyAdded = songIds.has(song.id);
+    const elementType = alreadyAdded ? "div" : "button";
+    const alreadyAddedIndicator = alreadyAdded
+        ? `<span id="${song.id}-already-added-indicator" class="${songIds.has(song.id) ? "song-already-added-indicator" : ""}">Already added!</span>`
+        : "";
+    const onClick = alreadyAdded ? "" : `onclick="addToPlaylist('${song.id}')"`;
+    return `
+<${elementType} class="spotify-song-row" ${onClick} id="song-button-${song.id}">
 ${songRow(idx, song)}
-</button>
+<span id="${song.id}-added-indicator" class="song-added-indicator">Added!</span>
+${alreadyAddedIndicator}
+</${elementType}>
 `;
+};
 const searchResults = (songs) => `<div class="spotify-songs-container">${songs.map((song, idx) => songSearchResult(idx, song)).join("")}</div>`;
 const renderPlaylistItems = (songs) => `<div class="spotify-songs-container">${songs.map((song, idx) => playlistItem(idx, song)).join("")}</div>`;
-const renderPlaylist = () => __awaiter(void 0, void 0, void 0, function* () {
+const renderPlaylist = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* ({ scrollToBottom, } = {}) {
     const playlistItems = getPlaylistItems();
     const playlistContainer = document.getElementById("spotify-playlist-items");
     const { items } = yield playlistItems;
     const songs = items.map((item) => item.track);
+    // Track songs in the playlist to prevent duplicates
+    for (const song of songs) {
+        songIds.add(song.id);
+    }
     if (playlistContainer) {
         playlistContainer.innerHTML = renderPlaylistItems(songs);
+        if (scrollToBottom) {
+            console.log("SCROLLIN");
+            const playlistItems = playlistContainer.getElementsByClassName("spotify-songs-container")[0];
+            playlistItems.scrollTo({
+                top: playlistItems.scrollHeight,
+                behavior: "smooth",
+            });
+        }
     }
     else {
         throw new Error("Could not find playlist container");
