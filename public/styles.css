@@ -1,55 +1,56 @@
 :root {
-    --h1-font-size: 7em;
-    --h2-font-size: 3.5em;
-    --input-font-size: 2em;
-    --input-height: 1em;
-    --pink: 234 44 106;
-    --yellow: 254 220 123;
-    --green: 70 112 16;
-    --blue: 0 128 128;
-    --light-pink: 255 198 195;
-    --dark-green: 11 96 67;
-    --orange: 254 176 106;
-    --burnt-orange: 255 108 31;
-    --cream: 242 238 233;
-    --light-blue: 150 173 214;
-    --spotify-green: #1ed760;
-    --spotify-grey: 179 179 179;
+  --h1-font-size: 7em;
+  --h2-font-size: 3.5em;
+  --input-font-size: 2em;
+  --input-height: 1em;
+  --pink: 234 44 106;
+  --yellow: 254 220 123;
+  --green: 70 112 16;
+  --blue: 0 128 128;
+  --light-pink: 255 198 195;
+  --dark-green: 11 96 67;
+  --orange: 254 176 106;
+  --burnt-orange: 255 108 31;
+  --cream: 242 238 233;
+  --light-blue: 150 173 214;
+  --spotify-green: #1ed760;
+  --spotify-grey: 179 179 179;
 }
 
 @media screen and (max-width: 600px) {
-    :root {
-        --h1-font-size: 6em;
-        --h2-font-size: 3em;
-        --input-font-size: 1.5em;
-        --input-height: 1em;
-    }
+  :root {
+    --h1-font-size: 6em;
+    --h2-font-size: 3em;
+    --input-font-size: 1.5em;
+    --input-height: 1em;
+  }
 }
 
 @media screen and (max-width: 400px) {
-    :root {
-        --h1-font-size: 5em;
-        --h2-font-size: 2em;
-        --input-font-size: 1.5em;
-        --input-height: 1em;
-    }
+  :root {
+    --h1-font-size: 5em;
+    --h2-font-size: 2em;
+    --input-font-size: 1.5em;
+    --input-height: 1em;
+  }
 }
 
 @font-face {
-    font-family: 'Bright';
-    src: url('fonts/Bright.woff2') format('woff2'),
-        url('fonts/Bright.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "Bright";
+  src:
+    url("fonts/Bright.woff2") format("woff2"),
+    url("fonts/Bright.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'SpotifyMixUi';
-    src: url('fonts/Spotify.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "SpotifyMixUi";
+  src: url("fonts/Spotify.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /*
@@ -60,347 +61,347 @@ font-variant-ligatures: none;
  */
 
 * {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 *:focus {
-    outline: 2px solid;
-    outline-offset: 2px;
+  outline: 2px solid;
+  outline-offset: 2px;
 }
 
 body {
-    margin: 0;
+  margin: 0;
 }
 
 th {
-    text-align: left;
+  text-align: left;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 h1 {
-    margin: 0;
-    font-size: var(--h1-font-size);
+  margin: 0;
+  font-size: var(--h1-font-size);
 }
 
 h2 {
-    font-size: var(--h2-font-size);
+  font-size: var(--h2-font-size);
 }
 
 a {
-    font-size: 2em;
-    text-decoration: none;
-    color: unset;
-    padding: 0px 8px;
-    border-radius: 8px;
+  font-size: 2em;
+  text-decoration: none;
+  color: unset;
+  padding: 0px 8px;
+  border-radius: 8px;
 }
 
 p,
 label,
 th,
 tr {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 input,
 button {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 #entry {
-    background-image: url("/miata_horizontal.webp");
-    min-height: 100vh;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    display: flex;
-    flex-direction: column;
-    color: #10191a;
+  background-image: url("/miata_horizontal.webp");
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: flex;
+  flex-direction: column;
+  color: #10191a;
 }
 
 #home {
-    background-color: #e0e479;
-    min-height: 100vh;
-    color: rgb(var(--pink));
+  background-color: #e0e479;
+  min-height: 100vh;
+  color: rgb(var(--pink));
 
-    a:hover {
-        outline: 2px solid rgb(var(--pink));
-    }
+  a:hover {
+    outline: 2px solid rgb(var(--pink));
+  }
 
-    *:focus {
-        outline-color: rgb(var(--pink));
-    }
+  *:focus {
+    outline-color: rgb(var(--pink));
+  }
 }
 
 #accommodations {
-    min-height: 100vh;
-    background-color: rgb(var(--dark-green));
-    color: rgb(var(--light-pink));
+  min-height: 100vh;
+  background-color: rgb(var(--dark-green));
+  color: rgb(var(--light-pink));
 
-    a:hover {
-        outline: 2px solid rgb(var(--light-pink));
-    }
+  a:hover {
+    outline: 2px solid rgb(var(--light-pink));
+  }
 
-    *:focus {
-        outline-color: rgb(var(--light-pink));
-    }
+  *:focus {
+    outline-color: rgb(var(--light-pink));
+  }
 }
 
 #registry {
-    min-height: 100vh;
-    background-color: rgb(var(--yellow));
-    color: rgb(var(--burnt-orange));
+  min-height: 100vh;
+  background-color: rgb(var(--yellow));
+  color: rgb(var(--burnt-orange));
 
-    a:hover {
-        outline: 2px solid rgb(var(--burnt-orange));
-    }
+  a:hover {
+    outline: 2px solid rgb(var(--burnt-orange));
+  }
 
-    *:focus {
-        outline-color: rgb(var(--burnt-orange));
-    }
+  *:focus {
+    outline-color: rgb(var(--burnt-orange));
+  }
 }
 
 #registry-links {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 #west-elm-link {
-    border: 1px solid #565458;
+  border: 1px solid #565458;
 }
 
 #crate-and-barrel-link {
-    border: 1px solid black;
-    color: black;
+  border: 1px solid black;
+  color: black;
 }
 
 #details {
-    min-height: 100vh;
-    background-color: rgb(var(--light-pink));
-    color: rgb(var(--blue));
+  min-height: 100vh;
+  background-color: rgb(var(--light-pink));
+  color: rgb(var(--blue));
 
-    a:hover {
-        outline: 2px solid rgb(var(--blue));
-    }
+  a:hover {
+    outline: 2px solid rgb(var(--blue));
+  }
 
-    *:focus {
-        outline-color: rgb(var(--blue));
-    }
+  *:focus {
+    outline-color: rgb(var(--blue));
+  }
 }
 
 .spotify {
-    font-family: "SpotifyMixUi", sans-serif !important;
+  font-family: "SpotifyMixUi", sans-serif !important;
 }
 
 #spotify-icon {
-    height: 1em;
+  height: 1em;
 }
 
 .spotify-search-results-container {
-    display: flex;
+  display: flex;
 }
 
 #spotify-search-results {
-    width: fit-content;
-    min-width: 50vw;
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 0.5em;
+  width: fit-content;
+  min-width: 50vw;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.5em;
 }
 
 .spotify-search-result {
-    background-color: black;
-    text-align: left;
-    border: none;
-    display: flex;
-    padding: 0;
-    margin: 0.5em 0.5em 0 0.5em;
-    border-radius: 4px;
-    height: 2.5em;
-    align-items: center;
+  background-color: black;
+  text-align: left;
+  border: none;
+  display: flex;
+  padding: 0;
+  margin: 0.5em 0.5em 0 0.5em;
+  border-radius: 4px;
+  height: 2.5em;
+  align-items: center;
 }
 
 .song-index {
-    color: rgb(var(--spotify-grey));
-    width: 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
+  color: rgb(var(--spotify-grey));
+  width: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
 }
 
 .spotify-search-title {
-    color: black;
+  color: black;
 }
 
 .spotify-search-result:hover {
-    background-color: hsla(0, 0%, 100%, .3);
+  background-color: hsla(0, 0%, 100%, 0.3);
 }
 
 .spotify-album-image {
-    height: 2em;
+  height: 2em;
 }
 
 .spotify-song-title {
-    font-size: 16px;
-    color: var(--spotify-green);
+  font-size: 16px;
+  color: var(--spotify-green);
 }
 
 .spotify-song-title-and-artists {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 0.5em;
 }
 
 .spotify-artists-names {
-    font-size: 14px;
-    color: rgb(var(--spotify-grey));
+  font-size: 14px;
+  color: rgb(var(--spotify-grey));
 }
 
 #faq {
-    min-height: 100vh;
-    background-color: rgb(var(--orange));
-    color: rgb(var(--dark-green));
+  min-height: 100vh;
+  background-color: rgb(var(--orange));
+  color: rgb(var(--dark-green));
 
-    a:hover {
-        outline: 2px solid rgb(var(--dark-green));
-    }
+  a:hover {
+    outline: 2px solid rgb(var(--dark-green));
+  }
 
-    *:focus {
-        outline-color: rgb(var(--dark-green));
-    }
+  *:focus {
+    outline-color: rgb(var(--dark-green));
+  }
 }
 
 #rsvp {
-    min-height: 100vh;
-    background-color: rgb(var(--cream));
-    color: rgb(var(--light-blue));
+  min-height: 100vh;
+  background-color: rgb(var(--cream));
+  color: rgb(var(--light-blue));
 
-    a:hover {
-        outline: 2px solid rgb(var(--light-blue));
-    }
+  a:hover {
+    outline: 2px solid rgb(var(--light-blue));
+  }
 
-    *:focus {
-        outline-color: rgb(var(--light-blue));
-    }
+  *:focus {
+    outline-color: rgb(var(--light-blue));
+  }
 }
 
 .page {
-    padding: 2em;
+  padding: 2em;
 }
 
 .selected-link {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .note {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 .entry-title {
-    text-align: center;
+  text-align: center;
 }
 
 .entry-input-container-outer {
-    background-color: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .entry-form {
-    margin-top: 2em;
-    display: flex;
-    align-items: center;
+  margin-top: 2em;
+  display: flex;
+  align-items: center;
 }
 
 .entry-input {
-    background: transparent;
-    border: 2px solid;
-    border-radius: var(--input-height);
-    font-size: var(--input-font-size);
-    padding-left: .5em;
-    height: var(--input-height);
+  background: transparent;
+  border: 2px solid;
+  border-radius: var(--input-height);
+  font-size: var(--input-font-size);
+  padding-left: 0.5em;
+  height: var(--input-height);
 }
 
 .entry-input::placeholder {
-    color: #103455;
+  color: #103455;
 }
 
 .submit-button {
-    display: inline-flex;
-    margin-left: 0.5em;
-    border: none;
-    background-color: transparent;
-    border-radius: 1.5em;
-    width: calc(var(--input-font-size) + var(--input-height));
-    height: calc(var(--input-font-size) + var(--input-height));
+  display: inline-flex;
+  margin-left: 0.5em;
+  border: none;
+  background-color: transparent;
+  border-radius: 1.5em;
+  width: calc(var(--input-font-size) + var(--input-height));
+  height: calc(var(--input-font-size) + var(--input-height));
 }
 
 .entry-label {
-    display: flex;
-    font-size: 22px;
-    flex-direction: column;
+  display: flex;
+  font-size: 22px;
+  flex-direction: column;
 }
 
 .nav-bar {
-    display: flex;
-    justify-content: space-between;
-    text-decoration: none;
-    margin-bottom: 2em;
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  margin-bottom: 2em;
 }
 
 .rsvp-table {
-    margin-top: 3em;
-    width: 100%;
+  margin-top: 3em;
+  width: 100%;
 }
 
 .fade-out {
-    opacity: 0;
+  opacity: 0;
 }
 
 .checkbox-container {
-    display: flex;
+  display: flex;
 }
 
 .success-message {
-    margin-left: 4px;
-    color: green;
+  margin-left: 4px;
+  color: green;
 }
 
 .landing-image {
-    width: 100%;
+  width: 100%;
 }
 
 .registry-link {
-    display: flex;
-    align-items: center;
-    border: 1px solid black;
-    border-radius: 1em;
-    padding: 1em;
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
 }
 
 .blue {
-    color: #103455;
-    fill: #103455;
-    border-color: #103455;
+  color: #103455;
+  fill: #103455;
+  border-color: #103455;
 }
 
 .pink {
-    color: var(--pink);
+  color: var(--pink);
 }
 
 .black {
-    color: black;
+  color: black;
 }
