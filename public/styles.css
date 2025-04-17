@@ -3,6 +3,7 @@
   --h2-font-size: 3.5em;
   --input-font-size: 2em;
   --input-height: 1em;
+  --cream: #fffae2;
   --pink: 234 44 106;
   --yellow: 254 220 123;
   --green: 70 112 16;
@@ -11,7 +12,6 @@
   --dark-green: 11 96 67;
   --orange: 254 176 106;
   --burnt-orange: 255 108 31;
-  --cream: 242 238 233;
   --light-blue: 150 173 214;
   --spotify-green: #1ed760;
   --spotify-grey: 179 179 179;
@@ -109,7 +109,7 @@ tr {
 
 input,
 button {
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
 #entry {
@@ -139,7 +139,6 @@ button {
 
 #accommodations {
   min-height: 100vh;
-  background-color: rgb(var(--dark-green));
   color: rgb(var(--light-pink));
 
   a:hover {
@@ -153,7 +152,6 @@ button {
 
 #registry {
   min-height: 100vh;
-  background-color: rgb(var(--yellow));
   color: rgb(var(--burnt-orange));
 
   a:hover {
@@ -183,16 +181,8 @@ button {
 
 #details {
   min-height: 100vh;
-  background-color: rgb(var(--light-pink));
+  background-color: black;
   color: rgb(var(--blue));
-
-  a:hover {
-    outline: 2px solid rgb(var(--blue));
-  }
-
-  *:focus {
-    outline-color: rgb(var(--blue));
-  }
 }
 
 .spotify {
@@ -203,11 +193,34 @@ button {
   height: 1em;
 }
 
-.spotify-search-results-container {
+#spotify-search-input {
+  background-color: rgb(31, 31, 31);
+  padding-left: 2em;
+  color: white;
+  height: 2em;
+  border-radius: 1em;
+  margin: 0.5em;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  outline: none;
+}
+
+.spotify-search-input-icon {
+  fill: white;
+  height: 1em;
+  transform: translateY(16%) translateX(233%);
+}
+
+#spotify-search-input:focus {
+  border: 1px solid white;
+}
+
+#spotify-search-results-container,
+#spotify-playlist-items {
   display: flex;
 }
 
-#spotify-search-results {
+.spotify-songs-container {
   width: fit-content;
   min-width: 50vw;
   background-color: black;
@@ -216,7 +229,7 @@ button {
   padding-bottom: 0.5em;
 }
 
-.spotify-search-result {
+.spotify-song-row {
   background-color: black;
   text-align: left;
   border: none;
@@ -238,15 +251,15 @@ button {
 }
 
 .spotify-search-title {
-  color: black;
+  color: var(--spotify-green);
 }
 
-.spotify-search-result:hover {
+#spotify-search-results-container .spotify-song-row:hover {
   background-color: hsla(0, 0%, 100%, 0.3);
 }
 
 .spotify-album-image {
-  height: 2em;
+  height: 2.5em;
 }
 
 .spotify-song-title {
@@ -266,9 +279,17 @@ button {
   color: rgb(var(--spotify-grey));
 }
 
+#faq,
+#rsvp,
+#home,
+#accommodations,
+/* #details */
+#registry, {
+  background-color: var(--cream);
+}
+
 #faq {
   min-height: 100vh;
-  background-color: rgb(var(--orange));
   color: rgb(var(--dark-green));
 
   a:hover {
@@ -282,7 +303,6 @@ button {
 
 #rsvp {
   min-height: 100vh;
-  background-color: rgb(var(--cream));
   color: rgb(var(--light-blue));
 
   a:hover {

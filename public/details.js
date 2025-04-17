@@ -46,27 +46,26 @@ const addToPlaylist = (id) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Added id ${id} to playlist!`);
     }
 });
-const playlistItem = ({ id, name, artists }) => `
-<div class="playlist-item">
-<div class="spotify song-name">${name}</div>
-<div class="spotify artists">${artists.map((artist) => artist.name).join(" ")}</div>
-</div>
-`;
-const songSearchResult = (idx, { id, name, artists, album }) => `
-<button class="spotify-search-result">
+const songRow = (idx, { id, name, artists, album }) => `
 <span class="spotify song-index">${idx}</span>
 <img class="spotify-album-image" src="${album.images[0].url}"></img>
 <span class="spotify-song-title-and-artists">
 <div class="spotify spotify-song-title">${name}</div>
 <div class="spotify spotify-artists-names">${artists.map(({ name }) => name).join(" ")}</div>
 </span>
+`;
+const playlistItem = (idx, song) => `
+<div class="spotify-song-row">
+${songRow(idx, song)}
+</div>
+`;
+const songSearchResult = (idx, song) => `
+<button class="spotify-song-row">
+${songRow(idx, song)}
 </button>
 `;
-const searchResults = (songs) => `<div id="spotify-search-results">${songs.map((song, idx) => songSearchResult(idx, song)).join("")}</div>`;
-const renderPlaylistItems = (songs) => {
-    console.log("songs", songs);
-    return `<div id="playlist-items">${songs.map((song) => playlistItem(song)).join("")}</div>`;
-};
+const searchResults = (songs) => `<div class="spotify-songs-container">${songs.map((song, idx) => songSearchResult(idx, song)).join("")}</div>`;
+const renderPlaylistItems = (songs) => `<div class="spotify-songs-container">${songs.map((song, idx) => playlistItem(idx, song)).join("")}</div>`;
 const renderPlaylist = () => __awaiter(void 0, void 0, void 0, function* () {
     const playlistItems = getPlaylistItems();
     const playlistContainer = document.getElementById("spotify-playlist-items");
@@ -82,8 +81,7 @@ const renderPlaylist = () => __awaiter(void 0, void 0, void 0, function* () {
 renderPlaylist();
 const searchSpotify = () => __awaiter(void 0, void 0, void 0, function* () {
     const spotifyToken = getCookie("spotify");
-    const text = document.getElementById("spotify-search")
-        .value;
+    const text = (document.getElementById("spotify-search-input")).value;
     const params = new URLSearchParams();
     params.append("q", text);
     params.append("type", "track");
