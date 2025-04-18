@@ -53,13 +53,6 @@
   font-display: swap;
 }
 
-/*
- * OLD FONT - for login and home
-font-family: "Bright", serif;
-font-feature-settings: "liga" 0;
-font-variant-ligatures: none;
- */
-
 * {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
@@ -71,8 +64,18 @@ font-variant-ligatures: none;
   outline-offset: 2px;
 }
 
+.bright {
+  font-family: "Bright", serif;
+  font-feature-settings: "liga" 0;
+  font-variant-ligatures: none;
+}
+
 body {
+  background-color: var(--cream);
   margin: 0;
+  width: 100vw;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 th {
@@ -93,14 +96,16 @@ h2 {
 }
 
 a {
-  font-size: 2em;
   text-decoration: none;
   color: unset;
   padding: 0px 8px;
   border-radius: 8px;
 }
 
-p,
+a.spotify {
+  color: var(--spotify-green);
+}
+
 label,
 th,
 tr {
@@ -124,8 +129,9 @@ button {
 }
 
 #home {
-  background-color: #e0e479;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   color: rgb(var(--pink));
 
   a:hover {
@@ -135,6 +141,16 @@ button {
   *:focus {
     outline-color: rgb(var(--pink));
   }
+}
+
+.home-headers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-body {
+  text-align: center;
 }
 
 #accommodations {
@@ -181,7 +197,6 @@ button {
 
 #details {
   min-height: 100vh;
-  background-color: black;
   color: rgb(var(--blue));
   width: fit-content;
   min-width: 100vw;
@@ -190,6 +205,14 @@ button {
 .spotify {
   font-family: "SpotifyMixUi", sans-serif !important;
   color: var(--spotify-green);
+}
+
+#spotify {
+  background-color: black;
+
+  .nav-bar {
+    color: var(--spotify-green);
+  }
 }
 
 #spotify-icon {
@@ -304,12 +327,13 @@ button {
 #faq,
 #rsvp,
 #home,
+#spotify,
 #accommodations,
-/* #details */
+#details,
 #registry {
-  background-color: var(--cream);
-  width: fit-content;
-  min-width: 100vw;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 #faq {
@@ -453,6 +477,8 @@ button {
 .gallery-wrapper {
   width: 100%;
   overflow: hidden;
+  flex-grow: 1;
+  align-content: end;
 }
 
 .gallery {
