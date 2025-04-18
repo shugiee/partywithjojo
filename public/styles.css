@@ -449,3 +449,30 @@ button {
 .black {
   color: black;
 }
+
+.gallery-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.gallery {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 75s linear infinite;
+}
+
+.gallery img {
+  height: 500px; /* consistent height */
+  width: auto; /* preserve aspect ratio */
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
