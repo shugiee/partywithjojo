@@ -1,17 +1,8 @@
 :root {
   --h1-font-size: 7em;
   --h2-font-size: 3.5em;
-  --input-font-size: 2em;
-  --input-height: 1em;
   --cream: #fffae2;
-  --pink: 234 44 106;
-  --yellow: 254 220 123;
   --green: 9, 97, 67;
-  --light-pink: 255 198 195;
-  --dark-green: 11 96 67;
-  --orange: 254 176 106;
-  --burnt-orange: 255 108 31;
-  --light-blue: 150 173 214;
   --spotify-green: #1ed760;
   --spotify-grey: 179 179 179;
 }
