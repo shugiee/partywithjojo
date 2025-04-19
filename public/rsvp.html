@@ -8,7 +8,6 @@
       name="description"
       content="Landing page for Jordyn Levy and Jonathan Olson's wedding in 2025."
     />
-    <link rel="stylesheet" href="./styles.css" />
     <script
       src="https://unpkg.com/htmx.org@2.0.4"
       integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
@@ -48,30 +47,42 @@
           Spotify</a
         >
       </div>
-      <form>
-        <label>
-          Please enter the first and last name of any member of your party.
-          <div>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              minlength="5"
-              size="25"
-              placeholder="John Smith"
-            />
-            <button
-              hx-post="/rsvp_get_user"
-              hx-swap="innerHTML"
-              hx-target="#rsvp_toggles"
-            >
-              Submit
-            </button>
-          </div>
-        </label>
-      </form>
-      <div id="rsvp_toggles"></div>
+      <div class="rsvp-body">
+        <div class="rsvp-headers">
+          <h2 class="bright pink home-party">Are you in?</h2>
+        </div>
+        <div class="rsvp-input-container">
+          <form>
+            <label class="rsvp-label">
+              <span class="rsvp-label-text">
+                Please enter the first and last name of any member of your
+                party.
+              </span>
+              <div class="rsvp-input-and-submit-button">
+                <input
+                  type="text"
+                  id="name"
+                  class="rsvp-input"
+                  name="name"
+                  required
+                  minlength="5"
+                  size="25"
+                  placeholder="John Smith"
+                />
+                <button
+                  class="rsvp-submit-button"
+                  hx-post="/rsvp_get_user"
+                  hx-swap="innerHTML"
+                  hx-target="#rsvp_toggles"
+                >
+                  Submit
+                </button>
+              </div>
+            </label>
+          </form>
+        </div>
+        <div id="rsvp_toggles"></div>
+      </div>
     </div>
   </body>
 </html>

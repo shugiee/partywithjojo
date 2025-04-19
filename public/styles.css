@@ -1,6 +1,7 @@
 :root {
   --h1-font-size: 7em;
   --h2-font-size: 3.5em;
+  --pink: 234 44 106;
   --cream: #fffae2;
   --green: 9, 97, 67;
   --spotify-green: #1ed760;
@@ -99,7 +100,7 @@ a.spotify {
 label,
 th,
 tr {
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 input,
@@ -123,14 +124,42 @@ button {
   flex-direction: column;
 }
 
+.home-party {
+  margin: 0;
+}
+
+.home-san-francisco,
+.home-date {
+  font-weight: bold;
+  margin: 0;
+}
+
 .home-headers {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.home-body {
+.home-text {
+  max-width: 75%;
+  min-width: 200px;
+}
+
+.home-body,
+.rsvp-body {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3em;
+}
+
+.row-name {
+  text-align: end;
+}
+
+.rsvp-form {
+  width: 100%;
 }
 
 #registry-links {
@@ -348,16 +377,6 @@ button {
   color: #103455;
 }
 
-.submit-button {
-  display: inline-flex;
-  margin-left: 0.5em;
-  border: none;
-  background-color: transparent;
-  border-radius: 1.5em;
-  width: calc(var(--input-font-size) + var(--input-height));
-  height: calc(var(--input-font-size) + var(--input-height));
-}
-
 .entry-label {
   display: flex;
   font-size: 22px;
@@ -374,6 +393,47 @@ button {
 .rsvp-table {
   margin-top: 3em;
   width: 100%;
+}
+
+.rsvp-label {
+}
+
+.rsvp-label-text {
+}
+
+.rsvp-input-and-submit-button {
+  margin-top: 1em;
+  display: flex;
+  gap: 1em;
+}
+
+.rsvp-input-container {
+}
+
+.rsvp-input {
+  height: 2em;
+  min-width: 10em;
+  max-width: 20em;
+  flex: 1 1 0;
+  border: none;
+  background-color: rgba(var(--green), 0.15);
+  border-radius: 1em;
+  padding-left: 1em;
+  color: rgb(var(--green));
+  font-weight: bold;
+}
+
+.rsvp-submit-button {
+  background-color: transparent;
+  border: 1px solid rgb(var(--green));
+  border-radius: 10px;
+  padding: 4px 8px;
+  color: rgb(var(--green));
+}
+
+.rsvp-submit-button:hover {
+  background-color: rgba(var(--green), 0.75);
+  color: var(--cream);
 }
 
 .fade-out {
