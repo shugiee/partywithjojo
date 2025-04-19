@@ -6,8 +6,7 @@
   --cream: #fffae2;
   --pink: 234 44 106;
   --yellow: 254 220 123;
-  --green: 70 112 16;
-  --blue: 0 128 128;
+  --green: 9, 97, 67;
   --light-pink: 255 198 195;
   --dark-green: 11 96 67;
   --orange: 254 176 106;
@@ -131,7 +130,6 @@ button {
 #home {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   color: rgb(var(--pink));
 
   a:hover {
@@ -154,7 +152,6 @@ button {
 }
 
 #accommodations {
-  min-height: 100vh;
   color: rgb(var(--light-pink));
 
   a:hover {
@@ -167,7 +164,6 @@ button {
 }
 
 #registry {
-  min-height: 100vh;
   color: rgb(var(--burnt-orange));
 
   a:hover {
@@ -197,7 +193,6 @@ button {
 
 #details {
   min-height: 100vh;
-  color: rgb(var(--blue));
   width: fit-content;
   min-width: 100vw;
 }
@@ -332,12 +327,13 @@ button {
 #details,
 #registry {
   width: 100%;
+  height: fit-content;
   min-height: 100vh;
   box-sizing: border-box;
+  color: rgb(var(--green));
 }
 
 #faq {
-  min-height: 100vh;
   color: rgb(var(--dark-green));
 
   a:hover {
@@ -350,7 +346,6 @@ button {
 }
 
 #rsvp {
-  min-height: 100vh;
   color: rgb(var(--light-blue));
 
   a:hover {
@@ -467,7 +462,7 @@ button {
 }
 
 .pink {
-  color: var(--pink);
+  color: rgb(var(--pink));
 }
 
 .black {
@@ -484,7 +479,7 @@ button {
 .gallery {
   display: flex;
   width: max-content;
-  animation: scroll-left 75s linear infinite;
+  animation: scroll-left 85s linear infinite;
 }
 
 .gallery img {
@@ -492,6 +487,95 @@ button {
   width: auto; /* preserve aspect ratio */
   flex-shrink: 0;
   object-fit: contain;
+}
+
+.count-down-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.count-down-timer-boxes {
+  display: flex;
+  justify-content: space-evenly;
+  width: 25em;
+}
+
+.count-down-timer-boxes > *:not(:last-child) {
+  margin-right: 0.5em;
+}
+
+.timer-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  background-color: rgb(var(--green));
+  color: var(--cream);
+  height: 6em;
+  width: 4em;
+  border-radius: 10px;
+}
+
+.timer-number {
+  font-size: 2em;
+}
+
+.details-content {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2em;
+}
+
+.details-content-left-pane {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.details-content-right-pane {
+  flex: 1 1 0;
+  min-width: 20em;
+}
+
+.details-content-right-pane > *:not(:last-child) {
+  margin-bottom: 2.5em;
+}
+
+.details-content-time {
+  font-weight: bold;
+  margin-bottom: 0.3em;
+}
+
+.details-event-name-and-location {
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+
+.details-event-name {
+  font-weight: bold;
+}
+
+.details-event-location {
+  border-left: 2px solid rgb(var(--green));
+  padding-left: 4px;
+}
+
+.details-description {
+  margin-top: 0.3em;
+}
+
+.wedding-day-title {
+  margin: 0;
+}
+
+.wedding-date {
+  font-size: 2em;
+  margin: 0;
 }
 
 @keyframes scroll-left {
