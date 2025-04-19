@@ -130,15 +130,6 @@ button {
 #home {
   display: flex;
   flex-direction: column;
-  color: rgb(var(--pink));
-
-  a:hover {
-    outline: 2px solid rgb(var(--pink));
-  }
-
-  *:focus {
-    outline-color: rgb(var(--pink));
-  }
 }
 
 .home-headers {
@@ -149,30 +140,6 @@ button {
 
 .home-body {
   text-align: center;
-}
-
-#accommodations {
-  color: rgb(var(--light-pink));
-
-  a:hover {
-    outline: 2px solid rgb(var(--light-pink));
-  }
-
-  *:focus {
-    outline-color: rgb(var(--light-pink));
-  }
-}
-
-#registry {
-  color: rgb(var(--burnt-orange));
-
-  a:hover {
-    outline: 2px solid rgb(var(--burnt-orange));
-  }
-
-  *:focus {
-    outline-color: rgb(var(--burnt-orange));
-  }
 }
 
 #registry-links {
@@ -342,18 +309,6 @@ button {
 
   *:focus {
     outline-color: rgb(var(--dark-green));
-  }
-}
-
-#rsvp {
-  color: rgb(var(--light-blue));
-
-  a:hover {
-    outline: 2px solid rgb(var(--light-blue));
-  }
-
-  *:focus {
-    outline-color: rgb(var(--light-blue));
   }
 }
 
