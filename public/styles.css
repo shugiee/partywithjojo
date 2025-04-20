@@ -1,7 +1,8 @@
 :root {
   --h1-font-size: 7em;
-  --h2-font-size: 3.5em;
+  --h2-font-size: 4em;
   --h3-font-size: 2em;
+  --h4-font-size: 1.5em;
   --pink: 234 44 106;
   --cream: #fffae2;
   --green: 9, 97, 67;
@@ -91,6 +92,10 @@ h3 {
   font-size: var(--h3-font-size);
 }
 
+h4 {
+  font-size: var(--h4-font-size);
+}
+
 a {
   text-decoration: none;
   color: unset;
@@ -113,8 +118,26 @@ button {
   font-size: 1em;
 }
 
+li {
+  text-align: start;
+}
+
+ol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .bold {
   font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underlined {
+  text-decoration: underline;
 }
 
 #entry {
@@ -149,16 +172,9 @@ button {
   align-items: center;
 }
 
-.home-text {
+.header {
   max-width: 75%;
   min-width: 200px;
-}
-.home-body {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3em;
 }
 
 .page-body {
@@ -170,7 +186,7 @@ button {
   align-items: center;
   text-align: center;
   flex-direction: column;
-  gap: 3em;
+  gap: 1em;
   flex: 1 1 auto;
   width: fit-content;
   max-width: 100%;
