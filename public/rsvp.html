@@ -47,41 +47,43 @@
           Spotify</a
         >
       </div>
-      <div class="rsvp-body">
-        <div class="rsvp-headers">
-          <h2 class="bright pink home-party">Are you in?</h2>
+      <div class="page-body">
+        <div class="page-content">
+          <div class="page-headers">
+            <h2 class="bright pink home-party">Are you in?</h2>
+          </div>
+          <div class="rsvp-input-container">
+            <form>
+              <label class="rsvp-label">
+                <span class="rsvp-label-text">
+                  Please enter the first and last name of any member of your
+                  party.
+                </span>
+                <div class="rsvp-input-and-submit-button">
+                  <input
+                    type="text"
+                    id="name"
+                    class="rsvp-input"
+                    name="name"
+                    required
+                    minlength="5"
+                    size="25"
+                    placeholder="John Smith"
+                  />
+                  <button
+                    class="rsvp-submit-button"
+                    hx-post="/rsvp_get_user"
+                    hx-swap="innerHTML"
+                    hx-target="#rsvp_toggles"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </label>
+            </form>
+          </div>
+          <div id="rsvp_toggles" class="rsvp-toggles"></div>
         </div>
-        <div class="rsvp-input-container">
-          <form>
-            <label class="rsvp-label">
-              <span class="rsvp-label-text">
-                Please enter the first and last name of any member of your
-                party.
-              </span>
-              <div class="rsvp-input-and-submit-button">
-                <input
-                  type="text"
-                  id="name"
-                  class="rsvp-input"
-                  name="name"
-                  required
-                  minlength="5"
-                  size="25"
-                  placeholder="John Smith"
-                />
-                <button
-                  class="rsvp-submit-button"
-                  hx-post="/rsvp_get_user"
-                  hx-swap="innerHTML"
-                  hx-target="#rsvp_toggles"
-                >
-                  Submit
-                </button>
-              </div>
-            </label>
-          </form>
-        </div>
-        <div id="rsvp_toggles"></div>
       </div>
     </div>
   </body>

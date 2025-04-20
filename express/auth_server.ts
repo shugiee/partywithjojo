@@ -177,8 +177,8 @@ const checkbox = (
                 <input type="hidden" name="${httpTarget}" value="${guestName}" />
                 <input type="hidden" name="${httpTarget}" value="${id}" />
                 <input id="${id}" type="checkbox" name="${httpTarget}" value="yes" ${isEnabled ? "checked" : ""} />
+                <span id="success-message-${id}-container" />
             </form>
-            <span id="success-message-${id}-container" />
         </div>
         `;
 };
@@ -230,7 +230,7 @@ const rsvpHtml = (rows: Row[]) => {
     (row) => row.is_welcome_party_invitee === "1",
   );
   return `
-        <div>
+        <div class="rsvp-table-container">
             <table class="rsvp-table">
                 <colgroup>
                     <col span="1" class="col">
@@ -239,9 +239,9 @@ const rsvpHtml = (rows: Row[]) => {
                 </colgroup>
 
                 <tbody>
-                <th>Name</th>
-                ${isAnyoneInvitedToWelcomeParty ? "<th>Will attend Friday?</th>" : ""}
-                <th>Will attend Saturday?</th>
+                <th></th>
+                ${isAnyoneInvitedToWelcomeParty ? "<th class='bright'>Friday<span class='pink bright'> | </span>Welcome Dinner</th>" : ""}
+                <th class='bright'>Saturday<span class='pink bright'> | </span>Wedding</th>
                 ${rows.map((row) => rowHtml(row)).join("")}
                 </tbody>
             </table>

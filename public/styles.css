@@ -70,7 +70,7 @@ body {
 }
 
 th {
-  text-align: left;
+  text-align: center;
 }
 
 button {
@@ -106,6 +106,10 @@ tr {
 input,
 button {
   font-size: 1em;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 #entry {
@@ -144,9 +148,7 @@ button {
   max-width: 75%;
   min-width: 200px;
 }
-
-.home-body,
-.rsvp-body {
+.home-body {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -154,8 +156,36 @@ button {
   gap: 3em;
 }
 
+.page-body {
+  display: flex;
+}
+
+.page-content {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  gap: 3em;
+  flex: 1 1 auto;
+  width: fit-content;
+  max-width: 100%;
+}
+
 .row-name {
   text-align: end;
+}
+
+.rsvp-toggles {
+  display: flex;
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+.rsvp-table-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: space-between;
 }
 
 .rsvp-form {
@@ -163,10 +193,15 @@ button {
 }
 
 #registry-links {
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 2em;
+}
+
+.registry-text {
+  width: 75%;
+  min-width: 20em;
 }
 
 #west-elm-link {
@@ -320,18 +355,6 @@ button {
   color: rgb(var(--green));
 }
 
-#faq {
-  color: rgb(var(--dark-green));
-
-  a:hover {
-    outline: 2px solid rgb(var(--dark-green));
-  }
-
-  *:focus {
-    outline-color: rgb(var(--dark-green));
-  }
-}
-
 .page {
   padding: 2em;
 }
@@ -341,7 +364,7 @@ button {
 }
 
 .note {
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
 .entry-title {
@@ -413,7 +436,6 @@ button {
 .rsvp-input {
   height: 2em;
   min-width: 10em;
-  max-width: 20em;
   flex: 1 1 0;
   border: none;
   background-color: rgba(var(--green), 0.15);
@@ -445,6 +467,7 @@ button {
 }
 
 .success-message {
+  position: absolute;
   margin-left: 4px;
   color: green;
 }
