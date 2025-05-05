@@ -299,6 +299,7 @@ ol {
   max-height: 27em;
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-color: var(--spotify-green) black;
 }
 
 .song-added-indicator {
