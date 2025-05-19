@@ -12,7 +12,6 @@ import cookieParser from "cookie-parser";
 import Database from "better-sqlite3";
 import * as fs from "fs";
 import * as dotenv from "dotenv";
-import crypto from "crypto";
 import { SignJWT, jwtVerify } from "jose-node-esm-runtime"; // Use the ESM version for Node.js
 const secretsPath = "/etc/partywithjojo/secrets.env";
 if (fs.existsSync(secretsPath)) {
@@ -123,29 +122,48 @@ app.get("/validate-token", (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.sendStatus(401);
     }
 }));
-const checkbox = (guestName, httpTarget, isEnabled) => {
-    const id = crypto.randomUUID();
+const radioButtons = (guestName, eventName, isEnabled) => {
     return `
-        <div class="checkbox-container">
-            <form class="rsvp-form" hx-post="/${httpTarget}" hx-trigger="change" hx-target="#success-message-${id}-container">
-                <input type="hidden" name="${httpTarget}" value="${guestName}" />
-                <input type="hidden" name="${httpTarget}" value="${id}" />
-                <input id="${id}" type="checkbox" name="${httpTarget}" value="yes" ${isEnabled ? "checked" : ""} />
-                <span id="success-message-${id}-container" />
-            </form>
+        <div class="radioButtons-container">
+            <fieldset>
+                <input required type="radio" name="${guestName}-${eventName}" value="yes" ${isEnabled ? "checked" : ""}>Yes</input>
+                <input type="radio" name="${guestName}-${eventName}" value="no" ${isEnabled ? "" : "checked"}>No</input>
+                </fieldset>
         </div>
         `;
+};
+const emailInput = () => {
+    // TODO: REMOVE DEFAULT EMAIL
+    return `
+  <div class="rsvp-footer">
+  <label>
+            <div class="rsvp-email">
+              Please enter one email for your party to get additional updates closer to the wedding day
+            </div>
+                  <input
+                  value="a@a.com"
+                    type="email"
+                    id="email"
+                    class="rsvp-input"
+                    required
+                    size="25"
+                    placeholder="jojo@party.com"
+                  ></input>
+            <button type="submit" class="rsvp-submit-button-inverse" hx-post="rsvp_submit" >Submit</button>
+            </label>
+            </div>
+            `;
 };
 const welcomePartyCheckbox = (row) => {
     const { is_coming_to_welcome_party } = row;
     const isComingToWelcomeParty = parseInt(is_coming_to_welcome_party) === 1;
-    return checkbox(row.name, "toggle_welcome_party_attendance", isComingToWelcomeParty);
+    return radioButtons(row.name, "welcomeParty", isComingToWelcomeParty);
 };
 const maybeWelcomePartyRow = (row) => {
     const { is_welcome_party_invitee } = row;
     if (is_welcome_party_invitee === "1") {
         return `
-            <td class="row-maybe-welcome-party row-checkbox">
+            <td class="row-maybe-welcome-party row-radioButtons">
                 ${welcomePartyCheckbox(row)}
             </td>
             `;
@@ -155,7 +173,7 @@ const maybeWelcomePartyRow = (row) => {
 const weddingPartyHtml = (row) => {
     const { is_coming_to_wedding } = row;
     const isComingToWedding = parseInt(is_coming_to_wedding) === 1;
-    return checkbox(row.name, "toggle_wedding_attendance", isComingToWedding);
+    return radioButtons(row.name, "wedding", isComingToWedding);
 };
 const rowHtml = (row) => {
     return `
@@ -164,7 +182,7 @@ const rowHtml = (row) => {
                 ${row.name}
             </td>
             ${maybeWelcomePartyRow(row)}
-            <td class="row-wedding-checkbox row-checkbox">
+            <td class="row-wedding-radioButtons row-radioButtons">
                 ${weddingPartyHtml(row)}
             </td>
         </tr>
@@ -174,6 +192,7 @@ const rsvpHtml = (rows) => {
     const isAnyoneInvitedToWelcomeParty = rows.some((row) => row.is_welcome_party_invitee === "1");
     return `
         <div class="rsvp-table-container">
+            <form class="rsvp-form">
             <table class="rsvp-table">
                 <colgroup>
                     <col span="1" class="col">
@@ -188,7 +207,8 @@ const rsvpHtml = (rows) => {
                 ${rows.map((row) => rowHtml(row)).join("")}
                 </tbody>
             </table>
-            <p class="note">Changes save automatically!</p>
+            ${emailInput()}
+            </form>
         </div>
     `;
 };
@@ -197,30 +217,17 @@ app.post("/user", (req, res) => {
     const members = getAllMembersInPartyWith(name);
     res.send(rsvpHtml(members));
 });
-const toggleSuccessHtml = (id) => {
-    return `
-        <span id="success-message-${id}" class="success-message">Saved!</span>
-        <script>
-            setTimeout(() => {
-                document.getElementById("success-message-${id}").classList.add("fade-out");
-            }, 5000);
-        </script>
-        `;
-};
-// TODO update param passed to have a better name
-app.post("/toggle_wedding_attendance", (req, res) => {
-    const { toggle_wedding_attendance } = req.body;
-    const isEnabled = toggle_wedding_attendance.includes("yes");
-    const [name, id] = toggle_wedding_attendance;
-    toggleWeddingAttendanceForUser(name, isEnabled);
-    res.send(toggleSuccessHtml(id));
-});
-app.post("/toggle_welcome_party_attendance", (req, res) => {
-    const { toggle_welcome_party_attendance } = req.body;
-    const isEnabled = toggle_welcome_party_attendance.includes("yes");
-    const [name, id] = toggle_welcome_party_attendance;
-    toggleWelcomePartyAttendanceForUser(name, isEnabled);
-    res.send(toggleSuccessHtml(id));
+app.post("/rsvp_submit", (req, res) => {
+    console.log("BODY", Object.keys(req.body));
+    for (const [nameAndEvent, value] of Object.entries(req.body)) {
+        const [name, event] = nameAndEvent.split("-");
+        const isComingToWelcomeParty = event === "welcomeParty" && value === "yes";
+        const isComingToWedding = event === "wedding" && value === "yes";
+        // TODO: MAKE THESE ACTUALLY PERSIST
+        // TODO: STORE EMAIL
+        toggleWelcomePartyAttendanceForUser(name, isComingToWelcomeParty);
+        toggleWeddingAttendanceForUser(name, isComingToWedding);
+    }
 });
 app.get("/rsvps", (req, res) => {
     const rsvps = getAllRsvps();
