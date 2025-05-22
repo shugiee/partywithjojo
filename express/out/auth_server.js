@@ -190,6 +190,14 @@ const rowHtml = (row) => {
 };
 const rsvpHtml = (rows) => {
     const isAnyoneInvitedToWelcomeParty = rows.some((row) => row.is_welcome_party_invitee === "1");
+    if (rows.length === 0) {
+        return `<div class="pink">
+    <h4>
+            We couldn't find anyone with that name! Please try again or let us know if you're having trouble.
+                    </h4>
+        </div>
+        `;
+    }
     return `
         <div class="rsvp-table-container">
             <form class="rsvp-form">
