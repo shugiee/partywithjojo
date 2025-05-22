@@ -258,6 +258,11 @@ input[type="radio"]:focus {
   gap: 2em;
 }
 
+#childrens-health-fund-link {
+  flex-grow: 1;
+  width: 15vw;
+}
+
 .registry-text {
   width: 75%;
   min-width: 20em;
@@ -556,6 +561,7 @@ input[type="radio"]:focus {
   border: 1px solid black;
   border-radius: 1em;
   padding: 1em;
+  min-width: 25vw;
 }
 
 .blue {
@@ -653,7 +659,7 @@ input[type="radio"]:focus {
 }
 
 .details-content-right-pane > *:not(:last-child) {
-  margin-bottom: 2.5em;
+  margin-bottom: 1.5em;
 }
 
 .details-content-time {
