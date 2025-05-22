@@ -1,8 +1,8 @@
 :root {
-  --h1-font-size: 10vw;
-  --h2-font-size: 7vw;
+  --h1-font-size: 7vw;
+  --h2-font-size: 5vw;
   --h3-font-size: 3vw;
-  --h4-font-size: 1.5vw;
+  --h4-font-size: 1vw;
   --pink: 234 44 106;
   --cream: #fffae2;
   --green: 9, 97, 67;
@@ -12,7 +12,11 @@
 
 @media screen and (max-width: 600px) {
   :root {
-    --input-font-size: 1.5em;
+    --h1-font-size: 10vw;
+    --h2-font-size: 7vw;
+    --h3-font-size: 3vw;
+    --h4-font-size: 1.5vw;
+    --input-font-size: 1vw;
     --input-height: 1em;
   }
 }
@@ -128,6 +132,29 @@ ol {
 
 fieldset {
   border: none;
+}
+
+input[type="radio"] {
+  appearance: none;
+
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid #999;
+  transition: 0.2s all linear;
+  margin-right: 5px;
+
+  position: relative;
+  top: 4px;
+}
+
+input:checked {
+  border: 6px solid rgb(var(--pink));
+}
+
+input[type="radio"]:focus {
+  outline: 2px solid rgb(var(--green));
 }
 
 .bold {
@@ -423,6 +450,7 @@ fieldset {
   background: transparent;
   border: 2px solid;
   border-radius: var(--input-height);
+  font-size: var(--input-font-size);
   padding-left: 0.5em;
   height: var(--input-height);
 }
