@@ -1,8 +1,8 @@
 :root {
-  --h1-font-size: 7em;
-  --h2-font-size: 4em;
-  --h3-font-size: 2em;
-  --h4-font-size: 1.5em;
+  --h1-font-size: 10vw;
+  --h2-font-size: 7vw;
+  --h3-font-size: 3vw;
+  --h4-font-size: 1.5vw;
   --pink: 234 44 106;
   --cream: #fffae2;
   --green: 9, 97, 67;
@@ -12,8 +12,6 @@
 
 @media screen and (max-width: 600px) {
   :root {
-    --h1-font-size: 6em;
-    --h2-font-size: 3em;
     --input-font-size: 1.5em;
     --input-height: 1em;
   }
@@ -266,7 +264,6 @@ fieldset {
 }
 
 #spotify-icon {
-  height: 1em;
 }
 
 #spotify-search-input {
@@ -426,7 +423,6 @@ fieldset {
   background: transparent;
   border: 2px solid;
   border-radius: var(--input-height);
-  font-size: var(--input-font-size);
   padding-left: 0.5em;
   height: var(--input-height);
 }
