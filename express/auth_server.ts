@@ -173,9 +173,9 @@ const radioButtons = (
   return `
         <div class="radioButtons-container">
             <fieldset>
-                <input required type="radio" name="${guestName}-${eventName}" value="yes" ${isEnabled ? "checked" : ""}>Yes</input>
-                <input type="radio" name="${guestName}-${eventName}" value="no" ${isEnabled ? "" : "checked"}>No</input>
-                </fieldset>
+                <input required type="radio" name="${guestName}---${eventName}" value="yes" ${isEnabled ? "checked" : ""}>Yes</input>
+                <input type="radio" name="${guestName}---${eventName}" value="no" ${isEnabled ? "" : "checked"}>No</input>
+            </fieldset>
         </div>
         `;
 };
@@ -283,16 +283,17 @@ app.post("/user", (req, res) => {
 });
 
 app.post("/rsvp_submit", (req, res) => {
-  console.log("BODY", Object.keys(req.body));
+  console.log("BODY", Object.entries(req.body));
   for (const [nameAndEvent, value] of Object.entries(req.body)) {
-    const [name, event] = nameAndEvent.split("-");
-    const isComingToWelcomeParty = event === "welcomeParty" && value === "yes";
-    const isComingToWedding = event === "wedding" && value === "yes";
-
-    // TODO: MAKE THESE ACTUALLY PERSIST
-    // TODO: STORE EMAIL
-    toggleWelcomePartyAttendanceForUser(name, isComingToWelcomeParty);
-    toggleWeddingAttendanceForUser(name, isComingToWedding);
+    const [name, event] = nameAndEvent.split("---");
+    if (event === "welcomeParty") {
+      const isComingToWelcomeParty =
+        event === "welcomeParty" && value === "yes";
+      toggleWelcomePartyAttendanceForUser(name, isComingToWelcomeParty);
+    } else if (event === "wedding") {
+      const isComingToWedding = event === "wedding" && value === "yes";
+      toggleWeddingAttendanceForUser(name, isComingToWedding);
+    }
   }
 });
 
