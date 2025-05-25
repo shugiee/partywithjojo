@@ -296,7 +296,9 @@ input[type="radio"]:focus {
   }
 }
 
-#spotify-icon {
+#spotify-primary-icon {
+  height: var(--h2-font-size);
+  width: var(--h2-font-size);
 }
 
 #spotify-search-input {
