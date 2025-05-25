@@ -23,9 +23,9 @@
 
 @media screen and (max-width: 400px) {
   :root {
-    --h1-font-size: 5em;
-    --h2-font-size: 2em;
-    --input-font-size: 1.5em;
+    --h1-font-size: 4em;
+    --h2-font-size: 1.5em;
+    --input-font-size: 1.25em;
     --input-height: 1em;
   }
 }
@@ -458,9 +458,8 @@ input[type="radio"]:focus {
   background: transparent;
   border: 2px solid;
   border-radius: var(--input-height);
-  font-size: var(--input-font-size);
   padding-left: 0.5em;
-  height: var(--input-height);
+  border: 1px solid;
 }
 
 .entry-input::placeholder {
@@ -476,6 +475,7 @@ input[type="radio"]:focus {
 .entry-submit-button {
   background: none;
   margin-left: 1em;
+  border: 1px solid;
 }
 
 .nav-bar {
