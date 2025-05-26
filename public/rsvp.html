@@ -18,6 +18,21 @@
 
   <body>
     <div id="rsvp" class="page">
+      <div class="nav">
+        <div class="nav-dropdown">
+            <label for="nav-dropdown" class="nav-dropdown-label"><span class="current-page">Page:</span><label>
+                <select name="nav-dropdown" class="nav-dropdown-normal" id="nav-dropdown" onchange="if (this.value) window.location.href=this.value;">
+                  <option value="">RSVP</option>
+                  <hr class="nav-dropdown-break"></hr>
+                  <option value="https://partywithjojo.com/home">Home</option>
+                  <option value="https://partywithjojo.com/details">Event Details</option>
+                  <option value="https://partywithjojo.com/accommodations">Accommodations</option>
+                  <option value="https://partywithjojo.com/registry">Registry</option>
+                  <option value="https://partywithjojo.com/faq">FAQs</option>
+                  <option disabled value="https://partywithjojo.com/rsvp">RSVP</option>
+                  <option value="https://partywithjojo.com/spotify">Spotify</option>
+                </select>
+            </div>
       <div class="nav-bar">
         <a href="./home">Home</a>
         <a href="./details">Event Details</a>

@@ -10,6 +10,8 @@
   --spotify-grey: 179 179 179;
   --ol-alignment: center;
   --page-padding: 2em;
+  --topbar-nav-display: flex;
+  --topbar-nav-dropdown: none;
 }
 
 @media screen and (max-width: 600px) {
@@ -20,6 +22,8 @@
     --h4-font-size: 3vw;
     --input-font-size: 2.5vw;
     --input-height: 2.5vw;
+    --topbar-nav-display: none;
+    --topbar-nav-dropdown: flex;
   }
 }
 
@@ -33,6 +37,8 @@
     --input-height: 2vw;
     --ol-alignment: start;
     --page-padding: 1em;
+    --topbar-nav-display: none;
+    --topbar-nav-dropdown: flex;
   }
 }
 
@@ -165,6 +171,16 @@ input[type="radio"]:focus {
 
 iframe {
   max-width: 100%;
+}
+
+select {
+  background-color: transparent;
+  border: none;
+  font-size: 1em;
+}
+
+select:focus {
+  outline: 1px solid rgb(var(--green));
 }
 
 .bold {
@@ -300,10 +316,7 @@ iframe {
 
 #spotify {
   background-color: black;
-
-  .nav-bar {
-    color: var(--spotify-green);
-  }
+  color: var(--spotify-green);
 }
 
 #spotify-primary-icon {
@@ -429,6 +442,18 @@ iframe {
   height: fit-content;
   min-height: 100vh;
   box-sizing: border-box;
+}
+
+#faq,
+#rsvp,
+#home,
+#accommodations,
+#details,
+#registry {
+  width: 100%;
+  height: fit-content;
+  min-height: 100vh;
+  box-sizing: border-box;
   color: rgb(var(--green));
 }
 
@@ -493,8 +518,27 @@ iframe {
   color: white;
 }
 
+.nav-dropdown {
+  margin-bottom: 2em;
+  font-size: 0.75em;
+  display: var(--topbar-nav-dropdown);
+  justify-content: center;
+}
+
+.nav-dropdown-normal {
+  color: rgb(var(--green));
+}
+
+.nav-dropdown-spotify {
+  color: var(--spotify-green);
+}
+
+.nav-dropdown-break {
+  margin: 0.25em 0;
+}
+
 .nav-bar {
-  display: flex;
+  display: var(--topbar-nav-display);
   justify-content: space-between;
   text-decoration: none;
   margin-bottom: 2em;
