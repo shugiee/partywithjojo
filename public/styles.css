@@ -8,6 +8,8 @@
   --green: 9, 97, 67;
   --spotify-green: #1ed760;
   --spotify-grey: 179 179 179;
+  --ol-alignment: center;
+  --page-padding: 2em;
 }
 
 @media screen and (max-width: 600px) {
@@ -29,6 +31,8 @@
     --h4-font-size: 5vw;
     --input-font-size: 2vw;
     --input-height: 2vw;
+    --ol-alignment: start;
+    --page-padding: 1em;
   }
 }
 
@@ -129,7 +133,7 @@ li {
 ol {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: var(--ol-alignment);
 }
 
 fieldset {
@@ -425,7 +429,7 @@ input[type="radio"]:focus {
 }
 
 .page {
-  padding: 2em;
+  padding: var(--page-padding);
 }
 
 .selected-link {
@@ -457,6 +461,7 @@ input[type="radio"]:focus {
 }
 
 .entry-input {
+  color: white;
   background: transparent;
   border: 1px solid white;
   border-radius: var(--input-height);
@@ -465,6 +470,10 @@ input[type="radio"]:focus {
 
 .entry-input::placeholder {
   color: white;
+}
+
+.entry-input:focus::placeholder {
+  color: #ccc;
 }
 
 .entry-label {
@@ -659,7 +668,7 @@ input[type="radio"]:focus {
 
 .details-content-block {
   width: 50%;
-  min-width: 300px;
+  min-width: 350px;
 }
 
 .details-content-right-pane > *:not(:last-child) {
