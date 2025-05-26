@@ -163,6 +163,10 @@ input[type="radio"]:focus {
   outline: 2px solid rgb(var(--green));
 }
 
+iframe {
+  max-width: 100%;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -569,12 +573,22 @@ input[type="radio"]:focus {
 }
 
 .registry-link {
+  flex: 1 0 25vw;
   display: flex;
   align-items: center;
-  border: 1px solid black;
+  justify-content: center;
+  border: 1px solid rgb(var(--green));
   border-radius: 1em;
   padding: 1em;
   min-width: 25vw;
+}
+
+.registry-link-inner {
+  max-width: 100%;
+}
+
+.feeding-america-image {
+  border-radius: 24px;
 }
 
 .blue {
