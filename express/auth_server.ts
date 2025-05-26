@@ -56,21 +56,26 @@ const getAllMembersInPartyWith = (name: string): Row[] => {
   return row;
 };
 
-const toggleWeddingAttendanceForUser = (name: string, isEnabled: boolean) => {
+const toggleWeddingAttendanceForUser = (
+  name: string,
+  isEnabled: boolean,
+  email: string | null,
+) => {
   const value = isEnabled ? 1 : 0;
   db.prepare(
-    "UPDATE guests SET is_coming_to_wedding = ? WHERE name LIKE ?",
-  ).run(value, name);
+    "UPDATE guests SET is_coming_to_wedding = ?, email = ? WHERE name LIKE ?",
+  ).run(value, email, name);
 };
 
 const toggleWelcomePartyAttendanceForUser = (
   name: string,
   isEnabled: boolean,
+  email: string | null,
 ) => {
   const value = isEnabled ? 1 : 0;
   db.prepare(
-    "UPDATE guests SET is_coming_to_welcome_party = ? WHERE name LIKE ?",
-  ).run(value, name);
+    "UPDATE guests SET is_coming_to_welcome_party = ?, email = ? WHERE name LIKE ?",
+  ).run(value, email, name);
 };
 
 const ISSUER = "";
@@ -104,7 +109,7 @@ const getSpotifyToken = async () => {
 
     return data;
   } catch (error: any) {
-    console.error("Jonathan error", error.message);
+    console.error("Error", error.message);
     return null;
   }
 };
@@ -143,7 +148,6 @@ app.post("/login", async (req, res) => {
 
 app.get("/validate-token", async (req, res) => {
   const { token } = req.cookies;
-  console.log("calling validate token", token);
   try {
     await jwtVerify(token, SIGNED_WEDDING_SITE_JWT_SECRET_KEY, {
       issuer: ISSUER,
@@ -191,6 +195,7 @@ const emailInput = () => {
                   <input
                   value="a@a.com"
                     type="email"
+                    name="email"
                     id="email"
                     class="rsvp-input"
                     required
@@ -283,17 +288,33 @@ app.post("/user", (req, res) => {
 });
 
 app.post("/rsvp_submit", (req, res) => {
-  console.log("BODY", Object.entries(req.body));
-  for (const [nameAndEvent, value] of Object.entries(req.body)) {
-    const [name, event] = nameAndEvent.split("---");
+  const callbacks: ((email: string | null) => void)[] = [];
+  let maybeEmail = null;
+
+  for (const [key, value] of Object.entries(req.body)) {
+    if (key === "email" && value) {
+      maybeEmail = value.toString();
+    }
+    const [name, event] = key.split("---");
     if (event === "welcomeParty") {
       const isComingToWelcomeParty =
         event === "welcomeParty" && value === "yes";
-      toggleWelcomePartyAttendanceForUser(name, isComingToWelcomeParty);
+      callbacks.push((email: string | null) =>
+        toggleWelcomePartyAttendanceForUser(
+          name,
+          isComingToWelcomeParty,
+          email,
+        ),
+      );
     } else if (event === "wedding") {
       const isComingToWedding = event === "wedding" && value === "yes";
-      toggleWeddingAttendanceForUser(name, isComingToWedding);
+      callbacks.push((email: string | null) =>
+        toggleWeddingAttendanceForUser(name, isComingToWedding, email),
+      );
     }
+  }
+  for (const callback of callbacks) {
+    callback(maybeEmail);
   }
 });
 

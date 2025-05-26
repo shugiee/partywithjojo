@@ -39,13 +39,13 @@ const getAllMembersInPartyWith = (name) => {
         .all(name);
     return row;
 };
-const toggleWeddingAttendanceForUser = (name, isEnabled) => {
+const toggleWeddingAttendanceForUser = (name, isEnabled, email) => {
     const value = isEnabled ? 1 : 0;
-    db.prepare("UPDATE guests SET is_coming_to_wedding = ? WHERE name LIKE ?").run(value, name);
+    db.prepare("UPDATE guests SET is_coming_to_wedding = ?, email = ? WHERE name LIKE ?").run(value, email, name);
 };
-const toggleWelcomePartyAttendanceForUser = (name, isEnabled) => {
+const toggleWelcomePartyAttendanceForUser = (name, isEnabled, email) => {
     const value = isEnabled ? 1 : 0;
-    db.prepare("UPDATE guests SET is_coming_to_welcome_party = ? WHERE name LIKE ?").run(value, name);
+    db.prepare("UPDATE guests SET is_coming_to_welcome_party = ?, email = ? WHERE name LIKE ?").run(value, email, name);
 };
 const ISSUER = "";
 const AUDIENCE = "";
@@ -70,7 +70,7 @@ const getSpotifyToken = () => __awaiter(void 0, void 0, void 0, function* () {
         return data;
     }
     catch (error) {
-        console.error("Jonathan error", error.message);
+        console.error("Error", error.message);
         return null;
     }
 });
@@ -104,7 +104,6 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 app.get("/validate-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { token } = req.cookies;
-    console.log("calling validate token", token);
     try {
         yield jwtVerify(token, SIGNED_WEDDING_SITE_JWT_SECRET_KEY, {
             issuer: ISSUER,
@@ -143,6 +142,7 @@ const emailInput = () => {
                   <input
                   value="a@a.com"
                     type="email"
+                    name="email"
                     id="email"
                     class="rsvp-input"
                     required
@@ -226,17 +226,24 @@ app.post("/user", (req, res) => {
     res.send(rsvpHtml(members));
 });
 app.post("/rsvp_submit", (req, res) => {
-    console.log("BODY", Object.entries(req.body));
-    for (const [nameAndEvent, value] of Object.entries(req.body)) {
-        const [name, event] = nameAndEvent.split("---");
+    const callbacks = [];
+    let maybeEmail = null;
+    for (const [key, value] of Object.entries(req.body)) {
+        if (key === "email" && value) {
+            maybeEmail = value.toString();
+        }
+        const [name, event] = key.split("---");
         if (event === "welcomeParty") {
             const isComingToWelcomeParty = event === "welcomeParty" && value === "yes";
-            toggleWelcomePartyAttendanceForUser(name, isComingToWelcomeParty);
+            callbacks.push((email) => toggleWelcomePartyAttendanceForUser(name, isComingToWelcomeParty, email));
         }
         else if (event === "wedding") {
             const isComingToWedding = event === "wedding" && value === "yes";
-            toggleWeddingAttendanceForUser(name, isComingToWedding);
+            callbacks.push((email) => toggleWeddingAttendanceForUser(name, isComingToWedding, email));
         }
+    }
+    for (const callback of callbacks) {
+        callback(maybeEmail);
     }
 });
 app.get("/rsvps", (req, res) => {

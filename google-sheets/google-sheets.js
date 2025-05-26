@@ -1,15 +1,8 @@
 import fs from "fs";
 import { get } from "http";
 import { config } from "dotenv";
-import { authenticate } from "@google-cloud/local-auth";
 
 import { google } from "googleapis";
-
-const { readFile, writeFile } = fs.promises;
-
-const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
-const TOKEN_PATH = "/etc/partywithjojo/token.json";
-const CREDENTIALS_PATH = "/etc/partywithjojo/credentials.json";
 
 const secretsPath = "/etc/partywithjojo/secrets.env";
 if (fs.existsSync(secretsPath)) {
@@ -57,13 +50,14 @@ async function writeRSVPs(rsvps) {
     auth: authClient,
     spreadsheetId: GOOGLE_SPREADSHEET_ID,
     valueInputOption: "RAW",
-    range: `RSVPs DO NOT EDIT!A3:E${3 + rsvps.length}`,
+    range: `RSVPs DO NOT EDIT!A3:D${3 + rsvps.length}`,
     requestBody: {
       majorDimension: "ROWS",
-      range: `RSVPs DO NOT EDIT!A3:E${3 + rsvps.length}`,
+      range: `RSVPs DO NOT EDIT!A3:D${3 + rsvps.length}`,
       values: rsvps.map((rsvp) => {
         const welcomePartyInt = parseInt(rsvp.is_coming_to_welcome_party);
         const weddingInt = parseInt(rsvp.is_coming_to_wedding);
+        const email = rsvp.email;
         const welcomePartyValue = isNaN(welcomePartyInt)
           ? "No response yet"
           : welcomePartyInt === 1
@@ -74,7 +68,7 @@ async function writeRSVPs(rsvps) {
           : weddingInt === 1
             ? "Yes"
             : "No";
-        return [rsvp.name, welcomePartyValue, weddingValue];
+        return [rsvp.name, welcomePartyValue, weddingValue, email];
       }),
     },
   });
