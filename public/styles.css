@@ -13,7 +13,7 @@
 @media screen and (max-width: 600px) {
   :root {
     --h1-font-size: 10vw;
-    --h2-font-size: 7vw;
+    --h2-font-size: 8vw;
     --h3-font-size: 3vw;
     --h4-font-size: 1.5vw;
     --input-font-size: 1vw;
