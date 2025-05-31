@@ -211,6 +211,11 @@ select:focus {
   flex-direction: column;
 }
 
+#rsvp_success_message_container {
+  margin-top: 1em;
+  font-size: var(--h4-font-size);
+}
+
 .home-party {
   margin: 0;
 }

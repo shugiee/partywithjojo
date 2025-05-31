@@ -3,7 +3,6 @@ import cookieParser from "cookie-parser";
 import Database from "better-sqlite3";
 import * as fs from "fs";
 import * as dotenv from "dotenv";
-import crypto from "crypto";
 import { SignJWT, jwtVerify } from "jose-node-esm-runtime"; // Use the ESM version for Node.js
 
 const secretsPath = "/etc/partywithjojo/secrets.env";
@@ -260,7 +259,7 @@ const rsvpHtml = (rows: Row[]) => {
   }
   return `
         <div class="rsvp-table-container">
-            <form class="rsvp-form">
+            <form class="rsvp-form" hx-target="#rsvp_success_message_container">
             <table class="rsvp-table">
                 <colgroup>
                     <col span="1" class="col">
@@ -277,6 +276,7 @@ const rsvpHtml = (rows: Row[]) => {
             </table>
             ${emailInput()}
             </form>
+            <div id="rsvp_success_message_container"><div>
         </div>
     `;
 };
@@ -316,6 +316,9 @@ app.post("/rsvp_submit", (req, res) => {
   for (const callback of callbacks) {
     callback(maybeEmail);
   }
+  res.send(
+    `<div class="rsvp_success_message bold">Success! Feel free to check out other pages, using the links at the top of the page.</div>`,
+  );
 });
 
 app.get("/rsvps", (req, res) => {

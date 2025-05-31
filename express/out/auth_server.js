@@ -200,7 +200,7 @@ const rsvpHtml = (rows) => {
     }
     return `
         <div class="rsvp-table-container">
-            <form class="rsvp-form">
+            <form class="rsvp-form" hx-target="#rsvp_success_message_container">
             <table class="rsvp-table">
                 <colgroup>
                     <col span="1" class="col">
@@ -217,6 +217,7 @@ const rsvpHtml = (rows) => {
             </table>
             ${emailInput()}
             </form>
+            <div id="rsvp_success_message_container"><div>
         </div>
     `;
 };
@@ -245,6 +246,7 @@ app.post("/rsvp_submit", (req, res) => {
     for (const callback of callbacks) {
         callback(maybeEmail);
     }
+    res.send(`<div class="rsvp_success_message bold">Success! Feel free to check out other pages, using the links at the top of the page.</div>`);
 });
 app.get("/rsvps", (req, res) => {
     const rsvps = getAllRsvps();
