@@ -14,11 +14,6 @@
     <link rel="preload" as="image" href="images/3.webp" />
     <link rel="preload" as="image" href="images/4.webp" />
     <link rel="preload" as="image" href="images/5.webp" />
-    <link rel="preload" as="image" href="images/6.webp" />
-    <link rel="preload" as="image" href="images/7.webp" />
-    <link rel="preload" as="image" href="images/8.webp" />
-    <link rel="preload" as="image" href="images/9.webp" />
-    <link rel="preload" as="image" href="images/10.webp" />
   </head>
 
   <body>
@@ -118,11 +113,6 @@
                 <img src="images/3.webp" />
                 <img src="images/4.webp" />
                 <img src="images/5.webp" />
-                <img src="images/6.webp" />
-                <img src="images/7.webp" />
-                <img src="images/8.webp" />
-                <img src="images/9.webp" />
-                <img src="images/10.webp" />
               </div>
             </div>
           </div>
@@ -131,19 +121,28 @@
     </div>
     <script>
       const gallery = document.getElementById("gallery");
-      let imageIndex = 1;
+      const maxImageIndex = 71;
+      let imageIndex = 6;
       let offset = 0;
       let speed = 1; // px per frame
 
+      const shownImages = [1, 2, 3, 4, 5];
+      const imagesToShow = [];
+      while (imageIndex <= maxImageIndex) {
+        imagesToShow.push(`images/${imageIndex++}.webp`);
+      }
+
       const addImage = () => {
-        console.log("adding image");
+        const randomImageIndex = Math.floor(
+          Math.random() * (imagesToShow.length - 1),
+        );
+        const nextImageSrc = imagesToShow.splice(randomImageIndex, 1)[0];
         const image = document.createElement("img");
-        image.src = `images/${imageIndex++}.webp`;
+        image.src = nextImageSrc;
         gallery.appendChild(image);
       };
 
       const animate = () => {
-        console.log("calling animate");
         offset -= speed;
 
         // Add more images if near the end
@@ -157,6 +156,9 @@
           const firstImageWidth = firstImage.offsetWidth;
           gallery.removeChild(firstImage);
           offset += firstImageWidth;
+          imagesToShow.push(
+            firstImage.src.replace("https://www.partywithjojo.com/", ""),
+          );
         }
         gallery.style.transform = `translateX(${offset}px)`;
 
