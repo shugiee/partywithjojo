@@ -325,8 +325,8 @@ select:focus {
 }
 
 #spotify-primary-icon {
-  height: var(--h2-font-size);
-  width: var(--h2-font-size);
+  height: 1em;
+  width: 1em;
 }
 
 #spotify-search-input {
