@@ -1,8 +1,8 @@
 :root {
-  --h1-font-size: 7vw;
-  --h2-font-size: 5vw;
-  --h3-font-size: 3vw;
-  --h4-font-size: 2vw;
+  --h1-font-size: 6em;
+  --h2-font-size: 5em;
+  --h3-font-size: 3em;
+  --h4-font-size: 2em;
   --pink: 234 44 106;
   --cream: #fffae2;
   --green: 9, 97, 67;
@@ -16,12 +16,12 @@
 
 @media screen and (max-width: 600px) {
   :root {
-    --h1-font-size: 10vw;
-    --h2-font-size: 8vw;
-    --h3-font-size: 4vw;
-    --h4-font-size: 3vw;
-    --input-font-size: 2.5vw;
-    --input-height: 2.5vw;
+    --h1-font-size: 5em;
+    --h2-font-size: 4em;
+    --h3-font-size: 3em;
+    --h4-font-size: 2em;
+    --input-font-size: 1.5em;
+    --input-height: 1.5em;
     --topbar-nav-display: none;
     --topbar-nav-dropdown: flex;
   }
@@ -29,12 +29,12 @@
 
 @media screen and (max-width: 400px) {
   :root {
-    --h1-font-size: 10vw;
-    --h2-font-size: 8vw;
-    --h3-font-size: 6vw;
-    --h4-font-size: 5vw;
-    --input-font-size: 2vw;
-    --input-height: 2vw;
+    --h1-font-size: 7em;
+    --h2-font-size: 6em;
+    --h3-font-size: 5em;
+    --h4-font-size: 4em;
+    --input-font-size: 2em;
+    --input-height: 2em;
     --ol-alignment: start;
     --page-padding: 1em;
     --topbar-nav-display: none;
@@ -291,7 +291,7 @@ select:focus {
 
 #childrens-health-fund-link {
   flex-grow: 1;
-  width: 15vw;
+  width: 15em;
 }
 
 .registry-text {
