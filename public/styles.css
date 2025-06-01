@@ -654,17 +654,14 @@ select:focus {
   color: black;
 }
 
-.gallery-wrapper {
+.gallery-container {
   width: 100%;
   overflow: hidden;
-  flex-grow: 1;
-  align-content: end;
 }
 
 .gallery {
   display: flex;
   width: max-content;
-  animation: scroll-left 85s linear infinite;
 }
 
 .gallery img {
