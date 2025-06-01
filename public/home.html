@@ -121,22 +121,28 @@
     </div>
     <script>
       const gallery = document.getElementById("gallery");
-      const maxImageIndex = 71;
+      const maxImageIndex = 145;
       let imageIndex = 6;
       let offset = 0;
-      let speed = 1; // px per frame
+      let speed = 2; // px per frame
 
-      const shownImages = [1, 2, 3, 4, 5];
+      const shownImages = [1, 2, 3, 4, 5].map((idx) => `images/${idx}.webp`);
       const imagesToShow = [];
       while (imageIndex <= maxImageIndex) {
         imagesToShow.push(`images/${imageIndex++}.webp`);
       }
 
       const addImage = () => {
+        if (imagesToShow.length === 0) {
+          while (shownImages.length > 0) {
+            imagesToShow.push(shownImages.pop());
+          }
+        }
         const randomImageIndex = Math.floor(
-          Math.random() * (imagesToShow.length - 1),
+          Math.random() * imagesToShow.length,
         );
         const nextImageSrc = imagesToShow.splice(randomImageIndex, 1)[0];
+        shownImages.push(nextImageSrc);
         const image = document.createElement("img");
         image.src = nextImageSrc;
         gallery.appendChild(image);
@@ -156,9 +162,6 @@
           const firstImageWidth = firstImage.offsetWidth;
           gallery.removeChild(firstImage);
           offset += firstImageWidth;
-          imagesToShow.push(
-            firstImage.src.replace("https://www.partywithjojo.com/", ""),
-          );
         }
         gallery.style.transform = `translateX(${offset}px)`;
 
