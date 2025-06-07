@@ -125,7 +125,7 @@
       let imageIndex = 6;
       let offset = 0;
       let speed = 2; // px per frame
-      let isAddingImage = false;
+      let lastImageRequestSecond = Math.floor(Date().now / 1000);
 
       const shownImages = [1, 2, 3, 4, 5].map((idx) => `images/${idx}.webp`);
       const imagesToShow = [];
@@ -134,10 +134,12 @@
       }
 
       const addImage = () => {
-        if (isAddingImage) {
+        const currentSecond = Math.floor(Date.now() / 1000);
+        // Only request one image per second, since requestAnimationFrame runs a lot more than 1/s
+        if (currentSecond === lastImageRequestSecond) {
           return;
         }
-        isAddingImage = true;
+        lastImageRequestSecond = currentSecond;
         if (imagesToShow.length === 0) {
           while (shownImages.length > 0) {
             imagesToShow.push(shownImages.pop());
@@ -151,7 +153,6 @@
         const image = document.createElement("img");
         image.src = nextImageSrc;
         gallery.appendChild(image);
-        isAddingImage = false;
       };
 
       const animate = () => {
