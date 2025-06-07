@@ -125,6 +125,7 @@
       let imageIndex = 6;
       let offset = 0;
       let speed = 2; // px per frame
+      let isAddingImage = false;
 
       const shownImages = [1, 2, 3, 4, 5].map((idx) => `images/${idx}.webp`);
       const imagesToShow = [];
@@ -133,6 +134,10 @@
       }
 
       const addImage = () => {
+        if (isAddingImage) {
+          return;
+        }
+        isAddingImage = true;
         if (imagesToShow.length === 0) {
           while (shownImages.length > 0) {
             imagesToShow.push(shownImages.pop());
@@ -146,6 +151,7 @@
         const image = document.createElement("img");
         image.src = nextImageSrc;
         gallery.appendChild(image);
+        isAddingImage = false;
       };
 
       const animate = () => {
