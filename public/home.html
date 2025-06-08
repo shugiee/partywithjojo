@@ -9,11 +9,6 @@
       content="Landing page for Jordyn Levy and Jonathan Olson's wedding in 2025."
     />
     <link rel="stylesheet" href="./styles.css" />
-    <link rel="preload" as="image" href="images/1.webp" />
-    <link rel="preload" as="image" href="images/2.webp" />
-    <link rel="preload" as="image" href="images/3.webp" />
-    <link rel="preload" as="image" href="images/4.webp" />
-    <link rel="preload" as="image" href="images/5.webp" />
   </head>
 
   <body>
@@ -107,13 +102,7 @@
               </p>
             </div>
             <div class="gallery-container">
-              <div id="gallery" class="gallery">
-                <img src="images/1.webp" />
-                <img src="images/2.webp" />
-                <img src="images/3.webp" />
-                <img src="images/4.webp" />
-                <img src="images/5.webp" />
-              </div>
+              <div id="gallery" class="gallery"></div>
             </div>
           </div>
         </div>
@@ -121,16 +110,31 @@
     </div>
     <script>
       const gallery = document.getElementById("gallery");
-      const maxImageIndex = 145;
-      let imageIndex = 6;
+      const maxImageIndex = 137;
+      let imageIndex = 1;
       let offset = 0;
       let speed = 2; // px per frame
       let lastImageRequestSecond = Math.floor(Date().now / 1000);
 
-      const shownImages = [1, 2, 3, 4, 5].map((idx) => `images/${idx}.webp`);
+      const shownImages = [
+        6, 135, 131, 125, 112, 59, 120, 84, 61, 115, 8, 121, 63, 45, 7, 50, 95,
+        75, 134, 122,
+      ].map((idx) => `images/${idx}.webp`);
+
+      // Immediately render the first images
+      for (const image of shownImages) {
+        const imageElement = document.createElement("img");
+        imageElement.src = image;
+        gallery.appendChild(imageElement);
+      }
+
+      // Queue up more
       const imagesToShow = [];
       while (imageIndex <= maxImageIndex) {
-        imagesToShow.push(`images/${imageIndex++}.webp`);
+        const newImage = `images/${imageIndex++}.webp`;
+        if (!shownImages.includes(newImage)) {
+          imagesToShow.push(newImage);
+        }
       }
 
       const addImage = () => {
