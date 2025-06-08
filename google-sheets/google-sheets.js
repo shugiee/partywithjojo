@@ -34,7 +34,7 @@ const getRsvps = async () => {
         })
         .on("end", function () {
           const rsvps = JSON.parse(Buffer.concat(bodyChunks));
-          writeRSVPs(rsvps).catch(console.error);
+          writeRSVPs(rsvps).catch((err) => console.error(err));
         });
     },
   );
