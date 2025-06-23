@@ -109,6 +109,7 @@ h3 {
 
 h4 {
   font-size: var(--h4-font-size);
+  margin: 0.5em 0;
 }
 
 a {
@@ -120,6 +121,14 @@ a {
 
 a.spotify {
   color: var(--spotify-green);
+}
+
+p {
+  margin-top: 0.3em;
+}
+
+#home p {
+  width: 50%;
 }
 
 label,
@@ -157,6 +166,8 @@ input[type="radio"] {
   border: 2px solid #999;
   transition: 0.2s all linear;
   margin-right: 5px;
+  margin-top: 0;
+  margin-bottom: 0;
 
   position: relative;
   top: 4px;
@@ -219,6 +230,18 @@ select:focus {
 
 .home-party {
   margin: 0;
+}
+
+.home-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-content-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .home-san-francisco,
@@ -747,7 +770,6 @@ select:focus {
 
 .details-content-time {
   font-weight: bold;
-  margin-bottom: 0.3em;
 }
 
 .details-event-name-and-location {
@@ -761,10 +783,6 @@ select:focus {
 .details-event-location {
   border-left: 2px solid rgb(var(--green));
   padding-left: 4px;
-}
-
-.details-description {
-  margin-top: 0.3em;
 }
 
 .accommodations-body {
