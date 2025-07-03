@@ -51,7 +51,7 @@ const getAllMembersInPartyWith = (name: string): Row[] => {
     .prepare(
       "SELECT * FROM guests WHERE party_id IN (SELECT party_id FROM guests WHERE name LIKE ?);",
     )
-    .all(name) as Row[];
+    .all(name.trim()) as Row[];
   return row;
 };
 
@@ -173,7 +173,6 @@ const radioButtons = (
   eventName: string,
   isEnabled: boolean | null,
 ) => {
-  console.log("is enabled for guest", guestName, isEnabled);
   return `
         <div class="radioButtons-container">
             <fieldset>
@@ -213,9 +212,8 @@ const emailInput = () => {
 
 const welcomePartyCheckbox = (row: Row) => {
   const { is_coming_to_welcome_party } = row;
-  console.log("is_coming_to_welcome_party", is_coming_to_welcome_party);
   const isComingToWelcomeParty =
-    is_coming_to_welcome_party === "1"
+    is_coming_to_welcome_party === "1.0"
       ? true
       : is_coming_to_welcome_party === "0"
         ? false
@@ -238,7 +236,7 @@ const maybeWelcomePartyRow = (row: Row) => {
 const weddingPartyHtml = (row: Row) => {
   const { is_coming_to_wedding } = row;
   const isComingToWedding =
-    is_coming_to_wedding === "1"
+    is_coming_to_wedding === "1.0"
       ? true
       : is_coming_to_wedding === "0"
         ? false
