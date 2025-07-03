@@ -656,7 +656,7 @@ select:focus {
 }
 
 .registry-link {
-  flex: 1 0 25vw;
+  flex: 1 1 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -784,6 +784,10 @@ select:focus {
 .details-event-location {
   border-left: 2px solid rgb(var(--green));
   padding-left: 4px;
+}
+
+.details-qr {
+  width: 50%;
 }
 
 .accommodations-body {
