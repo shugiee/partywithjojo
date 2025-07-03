@@ -171,16 +171,17 @@ app.get("/validate-token", async (req, res) => {
 const radioButtons = (
   guestName: string,
   eventName: string,
-  isEnabled: boolean,
+  isEnabled: boolean | null,
 ) => {
+  console.log("is enabled for guest", guestName, isEnabled);
   return `
         <div class="radioButtons-container">
             <fieldset>
             <div class="radio-button">
-                <input required type="radio" name="${guestName}---${eventName}" value="yes" ${isEnabled ? "checked" : ""}>Yes</input>
+                <input required type="radio" name="${guestName}---${eventName}" value="yes" ${isEnabled === true ? "checked" : ""}>Yes</input>
             </div>
             <div class="radio-button">
-                <input type="radio" name="${guestName}---${eventName}" value="no" ${isEnabled ? "" : "checked"}>No</input>
+                <input type="radio" name="${guestName}---${eventName}" value="no" ${isEnabled === false ? "checked" : ""}>No</input>
             </div>
             </fieldset>
         </div>
@@ -212,7 +213,13 @@ const emailInput = () => {
 
 const welcomePartyCheckbox = (row: Row) => {
   const { is_coming_to_welcome_party } = row;
-  const isComingToWelcomeParty = parseInt(is_coming_to_welcome_party) === 1;
+  console.log("is_coming_to_welcome_party", is_coming_to_welcome_party);
+  const isComingToWelcomeParty =
+    is_coming_to_welcome_party === "1"
+      ? true
+      : is_coming_to_welcome_party === "0"
+        ? false
+        : null;
   return radioButtons(row.name, "welcomeParty", isComingToWelcomeParty);
 };
 
@@ -230,7 +237,12 @@ const maybeWelcomePartyRow = (row: Row) => {
 
 const weddingPartyHtml = (row: Row) => {
   const { is_coming_to_wedding } = row;
-  const isComingToWedding = parseInt(is_coming_to_wedding) === 1;
+  const isComingToWedding =
+    is_coming_to_wedding === "1"
+      ? true
+      : is_coming_to_wedding === "0"
+        ? false
+        : null;
   return radioButtons(row.name, "wedding", isComingToWedding);
 };
 
