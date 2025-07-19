@@ -558,10 +558,12 @@ select:focus {
 
 .nav-dropdown-normal {
   color: rgb(var(--green));
+  font-size: 1.5em;
 }
 
 .nav-dropdown-spotify {
   color: var(--spotify-green);
+  font-size: 1.5em;
 }
 
 .nav-dropdown-break {
@@ -667,7 +669,9 @@ select:focus {
 }
 
 .registry-link-inner {
-  max-width: 100%;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .feeding-america-image {
