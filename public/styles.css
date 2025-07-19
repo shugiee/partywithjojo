@@ -84,6 +84,8 @@ body {
   width: 100vw;
   overflow-x: hidden;
   overflow-y: scroll;
+  display: flex;
+  justify-content: center;
 }
 
 th {
@@ -345,6 +347,10 @@ select:focus {
   color: var(--spotify-green);
 }
 
+.spotify-background {
+  background-color: black;
+}
+
 #spotify {
   background-color: black;
   color: var(--spotify-green);
@@ -490,6 +496,7 @@ select:focus {
 
 .page {
   padding: var(--page-padding);
+  max-width: 1000px;
 }
 
 .selected-link {
