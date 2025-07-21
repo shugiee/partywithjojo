@@ -330,9 +330,8 @@ app.post("/rsvp_submit", (req, res) => {
   for (const callback of callbacks) {
     callback(maybeEmail);
   }
-  res.send(
-    `<div class="rsvp_success_message bold">Success! Feel free to check out other pages, using the links at the top of the page.</div>`,
-  );
+  res.setHeader("HX-Redirect", "/success");
+  res.send();
 });
 
 app.get("/rsvps", (req, res) => {

@@ -472,7 +472,8 @@ select:focus {
 #spotify,
 #accommodations,
 #details,
-#registry {
+#registry,
+#succes {
   width: 100%;
   height: fit-content;
   min-height: 100vh;
@@ -484,7 +485,8 @@ select:focus {
 #home,
 #accommodations,
 #details,
-#registry {
+#registry,
+#success {
   width: 100%;
   height: fit-content;
   min-height: 100vh;
