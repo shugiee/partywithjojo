@@ -173,6 +173,7 @@ const radioButtons = (
   eventName: string,
   isEnabled: boolean | null,
 ) => {
+  console.log("joanthan isEnabled", isEnabled);
   return `
         <div class="radioButtons-container">
             <fieldset>
@@ -213,9 +214,9 @@ const emailInput = () => {
 const welcomePartyCheckbox = (row: Row) => {
   const { is_coming_to_welcome_party } = row;
   const isComingToWelcomeParty =
-    is_coming_to_welcome_party === "1.0"
+    parseInt(is_coming_to_welcome_party) === 1
       ? true
-      : is_coming_to_welcome_party === "0"
+      : parseInt(is_coming_to_welcome_party) === 0
         ? false
         : null;
   return radioButtons(row.name, "welcomeParty", isComingToWelcomeParty);
@@ -236,9 +237,9 @@ const maybeWelcomePartyRow = (row: Row) => {
 const weddingPartyHtml = (row: Row) => {
   const { is_coming_to_wedding } = row;
   const isComingToWedding =
-    is_coming_to_wedding === "1.0"
+    parseInt(is_coming_to_wedding) === 1
       ? true
-      : is_coming_to_wedding === "0"
+      : parseInt(is_coming_to_wedding) === 0
         ? false
         : null;
   return radioButtons(row.name, "wedding", isComingToWedding);
