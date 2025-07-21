@@ -84,6 +84,12 @@ body {
   width: 100vw;
   overflow-x: hidden;
   overflow-y: scroll;
+  width: 100%;
+}
+
+.body {
+  display: flex;
+  justify-content: center;
 }
 
 th {
@@ -337,7 +343,6 @@ select:focus {
 #details {
   min-height: 100vh;
   width: fit-content;
-  min-width: 100vw;
 }
 
 .spotify {
@@ -473,7 +478,7 @@ select:focus {
 #accommodations,
 #details,
 #registry,
-#succes {
+#success {
   width: 100%;
   height: fit-content;
   min-height: 100vh;
@@ -673,6 +678,7 @@ select:focus {
   border-radius: 1em;
   padding: 1em;
   min-width: 25vw;
+  max-width: 200px;
 }
 
 .registry-link-inner {
