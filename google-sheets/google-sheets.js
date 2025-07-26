@@ -50,10 +50,10 @@ async function writeRSVPs(rsvps) {
     auth: authClient,
     spreadsheetId: GOOGLE_SPREADSHEET_ID,
     valueInputOption: "RAW",
-    range: `RSVPs DO NOT EDIT!A3:D${3 + rsvps.length}`,
+    range: `RSVPs DO NOT EDIT!A3:E${3 + rsvps.length}`,
     requestBody: {
       majorDimension: "ROWS",
-      range: `RSVPs DO NOT EDIT!A3:D${3 + rsvps.length}`,
+      range: `RSVPs DO NOT EDIT!A3:E${3 + rsvps.length}`,
       values: rsvps.map((rsvp) => {
         const welcomePartyInt = parseInt(rsvp.is_coming_to_welcome_party);
         const weddingInt = parseInt(rsvp.is_coming_to_wedding);
@@ -68,7 +68,8 @@ async function writeRSVPs(rsvps) {
           : weddingInt === 1
             ? "Yes"
             : "No";
-        return [rsvp.name, welcomePartyValue, weddingValue, email];
+	const maybeTimestamp = rsvp.last_updated;
+        return [rsvp.name, welcomePartyValue, weddingValue, email, maybeTimestamp];
       }),
     },
   });
