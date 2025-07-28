@@ -68,8 +68,10 @@ async function writeRSVPs(rsvps) {
           : weddingInt === 1
             ? "Yes"
             : "No";
-	const maybeTimestamp = rsvp.last_updated;
-        return [rsvp.name, welcomePartyValue, weddingValue, email, maybeTimestamp];
+	      const maybeTimestamp = rsvp.last_updated
+	      ? new Date(new Date(rsvp.last_updated).getTime() - 7 * 3600 * 1000).toLocaleString()
+	      : null;
+	      return [rsvp.name, welcomePartyValue, weddingValue, email, maybeTimestamp];
       }),
     },
   });
