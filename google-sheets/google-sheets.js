@@ -49,7 +49,7 @@ async function writeRSVPs(rsvps) {
   const res = sheets.spreadsheets.values.update({
     auth: authClient,
     spreadsheetId: GOOGLE_SPREADSHEET_ID,
-    valueInputOption: "RAW",
+    valueInputOption: "USER_ENTERED",
     range: `RSVPs DO NOT EDIT!A3:E${3 + rsvps.length}`,
     requestBody: {
       majorDimension: "ROWS",
