@@ -190,25 +190,24 @@ const radioButtons = (
 
 const emailInput = () => {
   return `
-  <div class="rsvp-footer">
-  <label class="rsvp-label">
-            <div class="rsvp-label-text">
-              Please enter one email for your party to get additional updates closer to the wedding day
-            </div>
-        <div class="rsvp-input-and-submit-button">
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    class="rsvp-input"
-                    required
-                    placeholder="jojo@party.com"
-                  ></input>
-            <button type="submit" class="rsvp-submit-button-inverse" hx-post="rsvp_submit" >Submit RSVP</button>
-            </div>
-            </label>
-            </div>
-            `;
+<div class="rsvp-footer">
+    <label class="rsvp-label" for="email">
+        <div class="rsvp-label-text">
+            Please enter one email for your party to get additional updates closer to the wedding day
+        </div>
+    </label>
+    <div class="rsvp-input-and-submit-button">
+          <input
+            required
+            type="email"
+            name="email"
+            id="email"
+            class="rsvp-input"
+            placeholder="jojo@party.com"
+          ></input>
+        <button type="submit" class="rsvp-submit-button-inverse jonathan-foo2">Submit RSVP</button>
+    </div>
+</div>`;
 };
 
 const welcomePartyCheckbox = (row: Row) => {
@@ -273,7 +272,7 @@ const rsvpHtml = (rows: Row[]) => {
   }
   return `
         <div class="rsvp-table-container">
-            <form class="rsvp-form" hx-target="#rsvp_success_message_container">
+            <form class="rsvp-form" hx-target="#rsvp_success_message_container" hx-post="rsvp_submit">
             <table class="rsvp-table">
                 <colgroup>
                     <col span="1" class="col">
